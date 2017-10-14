@@ -9,11 +9,7 @@
     "start": "next start",
     "test": "jest"
   },
-  "keywords": [
-    "vx",
-    "demo",
-    "examples"
-  ],
+  "keywords": ["vx", "demo", "examples"],
   "author": "@hshoff",
   "license": "MIT",
   "dependencies": {
@@ -54,8 +50,8 @@
     "next": "2.2.0",
     "nprogress": "^0.2.0",
     "prismjs": "^1.6.0",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
+    "react": "15.6.2",
+    "react-dom": "15.6.2",
     "react-ga": "^2.1.2",
     "react-github-button": "^0.1.10",
     "react-motion": "^0.4.7",
@@ -64,9 +60,7 @@
     "topojson-client": "^3.0.0"
   },
   "browserify": {
-    "transform": [
-      "babelify"
-    ]
+    "transform": ["babelify"]
   },
   "publishConfig": {
     "access": "public"
@@ -75,7 +69,8 @@
     "babel-jest": "^20.0.3",
     "enzyme": "^2.8.2",
     "jest": "^20.0.3",
-    "react-test-renderer": "^15.6.1",
+    "react-addons-test-utils": "15.6.2",
+    "react-test-renderer": "15.6.2",
     "regenerator-runtime": "^0.10.5"
   }
 }
