@@ -1,6 +1,8 @@
 .DS_Store
 node_modules
 build
+es
+umd
 bundle.js
 test/tmp
 *.log

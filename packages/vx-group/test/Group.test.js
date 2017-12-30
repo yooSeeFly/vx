@@ -1,13 +1,13 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Group } from '../src';
+import { Group } from '../';
 
 describe('<Group />', () => {
   test('it should be defined', () => {
     expect(Group).toBeDefined();
   });
 
-  test('it should have class=\'cx-group\'', () => {
+  test("it should have class='cx-group'", () => {
     const wrapper = shallow(<Group />);
     expect(wrapper.prop('className')).toEqual('cx-group');
   });
@@ -18,19 +18,15 @@ describe('<Group />', () => {
   });
 
   test('it should set props top, left, className', () => {
-    const wrapper = shallow(
-      <Group
-        className='test'
-        top={3}
-        left={4}
-      />
-    );
+    const wrapper = shallow(<Group className="test" top={3} left={4} />);
     expect(wrapper.prop('transform')).toEqual('translate(4, 3)');
     expect(wrapper.prop('className')).toEqual('cx-group test');
   });
 
   test('it should set restProps', () => {
-    const wrapper = shallow(<Group clipPath="url(#myClip)" stroke="mapleSyrup" />);
+    const wrapper = shallow(
+      <Group clipPath="url(#myClip)" stroke="mapleSyrup" />
+    );
     expect(wrapper.prop('clipPath')).toEqual('url(#myClip)');
     expect(wrapper.prop('stroke')).toEqual('mapleSyrup');
   });
