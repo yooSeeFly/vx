@@ -7,30 +7,23 @@
   "jsnext:main": "es/vx-brush.production.js",
   "scripts": {
     "test": "NODE_ENV=test jest",
-    "build": "npm run clean && npm run build:umd && npm run build:umd:min && npm run build:es && npm run build:es:min",
+    "build":
+      "npm run clean && npm run build:umd && npm run build:umd:min && npm run build:es && npm run build:es:min",
     "build:umd": "NODE_ENV=development FORMAT=umd rollup -c ./rollup.config.js",
-    "build:umd:min": "NODE_ENV=production FORMAT=umd rollup -c ./rollup.config.js",
+    "build:umd:min":
+      "NODE_ENV=production FORMAT=umd rollup -c ./rollup.config.js",
     "build:es": "NODE_ENV=development FORMAT=es rollup -c ./rollup.config.js",
-    "build:es:min": "NODE_ENV=production FORMAT=es rollup -c ./rollup.config.js",
+    "build:es:min":
+      "NODE_ENV=production FORMAT=es rollup -c ./rollup.config.js",
     "clean": "rimraf ./umd ./es",
     "prepare": "npm run build"
   },
-  "files": [
-    "es/",
-    "umd/",
-    "index.js"
-  ],
+  "files": ["es/", "umd/", "index.js"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hshoff/vx.git"
   },
-  "keywords": [
-    "vx",
-    "d3",
-    "react",
-    "visualizations",
-    "charts"
-  ],
+  "keywords": ["vx", "d3", "react", "visualizations", "charts"],
   "author": "@hshoff",
   "license": "MIT",
   "bugs": {
@@ -41,6 +34,7 @@
     "access": "public"
   },
   "devDependencies": {
+    "babel-core": "^6.26.0",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
@@ -72,9 +66,6 @@
     "recompose": "^0.26.0"
   },
   "jest": {
-    "setupFiles": [
-      "raf/polyfill",
-      "<rootDir>/test/enzyme-setup.js"
-    ]
+    "setupFiles": ["raf/polyfill", "<rootDir>/test/enzyme-setup.js"]
   }
 }
