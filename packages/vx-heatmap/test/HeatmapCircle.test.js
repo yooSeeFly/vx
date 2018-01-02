@@ -1,7 +1,7 @@
-import { HeatmapCircle } from '../src';
+import { HeatmapCircle } from '../es/vx-heatmap.production';
 
 describe('<HeatmapCircle />', () => {
   test('it should be defined', () => {
-    expect(HeatmapCircle).toBeDefined()
-  })
-})
+    expect(HeatmapCircle).toBeDefined();
+  });
+});

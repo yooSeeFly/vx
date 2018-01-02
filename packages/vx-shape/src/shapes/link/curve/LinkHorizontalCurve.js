@@ -1,7 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { pointRadial } from 'd3-shape';
 import additionalProps from '../../../util/additionalProps';
 
 LinkHorizontalCurve.propTypes = {
@@ -16,7 +15,6 @@ export default function LinkHorizontalCurve({
   y = d => d.x,
   ...restProps
 }) {
-
   const curve = (source, target) => {
     const sx = x(source);
     const sy = y(source);

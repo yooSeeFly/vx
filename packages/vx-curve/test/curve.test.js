@@ -17,7 +17,7 @@ import {
   curveMonotoneX,
   curveMonotoneY,
   curveNatural
-} from '../';
+} from '../es/vx-curve.production';
 
 test('curveBasis', () => {
   expect(curveBasis).toBeDefined();

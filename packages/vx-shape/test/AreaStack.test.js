@@ -1,7 +1,7 @@
-import { AreaStack } from '../src';
+import { AreaStack } from '../es/vx-shape.production';
 
 describe('<AreaStack />', () => {
   test('it should be defined', () => {
-    expect(AreaStack).toBeDefined()
-  })
-})
+    expect(AreaStack).toBeDefined();
+  });
+});

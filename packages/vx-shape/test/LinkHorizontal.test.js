@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { hierarchy } from 'd3-hierarchy';
-import { LinkHorizontal } from '../src';
+import { LinkHorizontal } from '../es/vx-shape.production';
 
 const mockHierarchy = hierarchy({
   name: 'Eve',
@@ -9,9 +9,9 @@ const mockHierarchy = hierarchy({
     { name: 'Cain' },
     {
       name: 'Seth',
-      children: [{ name: 'Enos' }, { name: 'Noam' }],
-    },
-  ],
+      children: [{ name: 'Enos' }, { name: 'Noam' }]
+    }
+  ]
 });
 const link = mockHierarchy.links()[0];
 
@@ -28,7 +28,7 @@ describe('<LinkHorizontal />', () => {
     };
     ReactDOM.render(
       <LinkHorizontal innerRef={refCallback} data={link} />,
-      node,
+      node
     );
   });
 });

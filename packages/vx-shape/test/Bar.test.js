@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Bar } from '../src';
+import { Bar } from '../es/vx-shape.production';
 
 describe('<Bar />', () => {
   test('it should be defined', () => {

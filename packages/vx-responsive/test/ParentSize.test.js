@@ -1,4 +1,4 @@
-import { ParentSize } from '../src';
+import { ParentSize } from '../es/vx-responsive.production';
 
 describe('<ParentSize />', () => {
   test('it should be defined', () => {

@@ -1,7 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { pointRadial } from 'd3-shape';
 import additionalProps from '../../../util/additionalProps';
 
 LinkRadialCurve.propTypes = {
@@ -16,7 +15,6 @@ export default function LinkRadialCurve({
   y = d => d.y,
   ...restProps
 }) {
-
   const curve = (source, target) => {
     const sa = x(source) - Math.PI / 2;
     const sr = y(source);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Pie } from '../src';
+import { Pie } from '../es/vx-shape.production';
 import { browserUsage } from '../../vx-mock-data';
 
 const PieWrapper = ({ ...restProps }) =>

@@ -1,7 +1,7 @@
-import { scaleLinear } from '../src';
+import { scaleLinear } from '../es/vx-scale.production';
 
 describe('scaleLinear', () => {
   test('it should be defined', () => {
-    expect(scaleLinear).toBeDefined()
-  })
-})
+    expect(scaleLinear).toBeDefined();
+  });
+});

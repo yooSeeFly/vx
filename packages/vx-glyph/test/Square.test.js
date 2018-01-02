@@ -1,4 +1,4 @@
-import { GlyphSquare } from '../src';
+import { GlyphSquare } from '../es/vx-glyph.production';
 
 describe('<GlyphSquare />', () => {
   test('it should be defined', () => {

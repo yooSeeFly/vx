@@ -1,7 +1,7 @@
-import { LinkRadial } from '../src';
+import { LinkRadial } from '../es/vx-shape.production';
 
 describe('<LinkRadial />', () => {
   test('it should be defined', () => {
-    expect(LinkRadial).toBeDefined()
-  })
-})
+    expect(LinkRadial).toBeDefined();
+  });
+});

@@ -1,4 +1,4 @@
-import { TooltipWithBounds } from '../src';
+import { TooltipWithBounds } from '../es/vx-tooltip.production';
 
 describe('<TooltipWithBounds />', () => {
   test('it should be defined', () => {

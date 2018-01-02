@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { hierarchy } from 'd3-hierarchy';
-import { Cluster } from '../src';
+import { Cluster } from '../es/vx-hierarchy.production';
 
 const childrenFunc = jest.fn();
 const mockHierarchy = hierarchy({
@@ -10,9 +10,9 @@ const mockHierarchy = hierarchy({
     { name: 'Cain' },
     {
       name: 'Seth',
-      children: [{ name: 'Enos' }, { name: 'Noam' }],
-    },
-  ],
+      children: [{ name: 'Enos' }, { name: 'Noam' }]
+    }
+  ]
 });
 
 const ClusterWrapper = ({ ...restProps }) =>

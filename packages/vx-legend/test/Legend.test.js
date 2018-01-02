@@ -1,13 +1,13 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Legend } from '../src';
+import { Legend } from '../es/vx-legend.production';
 import { scaleLinear } from '../../vx-scale';
 
 const defaultProps = {
   scale: scaleLinear({
     rangeRound: [10, 0],
-    domain: [0, 10],
-  }),
+    domain: [0, 10]
+  })
 };
 
 describe('<Legend />', () => {
@@ -19,27 +19,25 @@ describe('<Legend />', () => {
     const wrapper = shallow(<Legend {...defaultProps} />);
     expect(wrapper.prop('style')).toEqual({
       display: 'flex',
-      flexDirection: 'column',
+      flexDirection: 'column'
     });
   });
 
   test('it should extend style prop', () => {
     const wrapper = shallow(
-      <Legend {...defaultProps} style={{ display: 'block' }} />,
+      <Legend {...defaultProps} style={{ display: 'block' }} />
     );
     expect(wrapper.prop('style')).toEqual({
       display: 'block',
-      flexDirection: 'column',
+      flexDirection: 'column'
     });
   });
 
   test('it should pass through direction prop to style prop', () => {
-    const wrapper = shallow(
-      <Legend {...defaultProps} direction="row" />,
-    );
+    const wrapper = shallow(<Legend {...defaultProps} direction="row" />);
     expect(wrapper.prop('style')).toEqual({
       display: 'flex',
-      flexDirection: 'row',
+      flexDirection: 'row'
     });
   });
 });

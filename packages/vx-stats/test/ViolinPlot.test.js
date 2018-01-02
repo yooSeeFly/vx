@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { scaleLinear } from '../../vx-scale';
-import { ViolinPlot, computeStats } from '../src';
+import { ViolinPlot, computeStats } from '../es/vx-stats.production';
 
 const data = [1, 2, 3, 4, 5, 6, 6, 7, 8, 9, 1];
 const { binData } = computeStats(data);
@@ -23,7 +23,7 @@ describe('<VoilinPlot />', () => {
         left={3}
         width={100}
         valueScale={valueScale}
-      />,
+      />
     );
     expect(wrapper.prop('className')).toEqual('vx-violin');
   });
@@ -35,9 +35,8 @@ describe('<VoilinPlot />', () => {
         left={3}
         width={100}
         valueScale={valueScale}
-      />,
+      />
     );
     expect(wrapper.find('path').length).toEqual(1);
   });
-
 });

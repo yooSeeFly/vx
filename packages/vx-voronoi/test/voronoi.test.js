@@ -1,4 +1,4 @@
-import { voronoi } from '../src';
+import { voronoi } from '../es/vx-voronoi.production';
 
 describe('voronoi', () => {
   test('it should be defined', () => {
@@ -26,4 +26,4 @@ describe('voronoi', () => {
     expect(x1).toEqual(width + 1);
     expect(y1).toEqual(height + 1);
   });
-})
+});

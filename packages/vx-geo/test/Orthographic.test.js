@@ -1,5 +1,5 @@
 import React from 'react';
-import { Orthographic } from '../src';
+import { Orthographic } from '../es/vx-geo.production';
 
 describe('<Orthographic />', () => {
   test('it should be defined', () => {

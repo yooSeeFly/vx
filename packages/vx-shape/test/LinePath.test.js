@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { LinePath } from '../src';
+import { LinePath } from '../es/vx-shape.production';
 
 const linePathProps = {
   data: [{ x: 0, y: 0 }, { x: 1, y: 1 }],
   x: d => d.x,
   y: d => d.y,
   xScale: d => d,
-  yScale: d => d,
+  yScale: d => d
 };
 
 describe('<LinePath />', () => {
@@ -23,7 +23,7 @@ describe('<LinePath />', () => {
     };
     ReactDOM.render(
       <LinePath innerRef={refCallback} {...linePathProps} />,
-      node,
+      node
     );
   });
 });

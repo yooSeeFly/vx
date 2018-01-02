@@ -1,13 +1,13 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Axis, AxisRight } from '../src';
+import { Axis, AxisRight } from '../es/vx-axis.production';
 import { scaleLinear } from '../../vx-scale';
 
 const axisProps = {
   scale: scaleLinear({
     rangeRound: [10, 0],
-    domain: [0, 10],
-  }),
+    domain: [0, 10]
+  })
 };
 
 describe('<AxisRight />', () => {
@@ -50,7 +50,9 @@ describe('<AxisRight />', () => {
 
   test('it should set labelOffset prop', () => {
     const labelOffset = 3;
-    const wrapper = shallow(<AxisRight {...axisProps} labelOffset={labelOffset} />);
+    const wrapper = shallow(
+      <AxisRight {...axisProps} labelOffset={labelOffset} />
+    );
     expect(wrapper.prop('labelOffset')).toEqual(labelOffset);
   });
 
@@ -61,7 +63,9 @@ describe('<AxisRight />', () => {
 
   test('it should set tickLength prop', () => {
     const tickLength = 15;
-    const wrapper = shallow(<AxisRight {...axisProps} tickLength={tickLength} />);
+    const wrapper = shallow(
+      <AxisRight {...axisProps} tickLength={tickLength} />
+    );
     expect(wrapper.prop('tickLength')).toEqual(tickLength);
   });
 

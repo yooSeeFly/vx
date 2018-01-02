@@ -2,16 +2,25 @@
   "name": "@vx/network",
   "version": "0.0.143",
   "description": "vx graph",
-  "main": "build/index.js",
-  "repository": "https://github.com/hshoff/vx",
-  "files": [
-    "build"
-  ],
+  "main": "index.js",
+  "module": "es/vx-network.production.js",
+  "jsnext:main": "es/vx-network.production.js",
   "scripts": {
-    "build": "make build SRC=./src",
-    "prepublish": "make build SRC=./src",
-    "test": "jest"
+    "test": "NODE_ENV=test jest",
+    "build": "npm run clean && npm run build:umd && npm run build:umd:min && npm run build:es && npm run build:es:min",
+    "build:umd": "NODE_ENV=development FORMAT=umd rollup -c ./rollup.config.js",
+    "build:umd:min": "NODE_ENV=production FORMAT=umd rollup -c ./rollup.config.js",
+    "build:es": "NODE_ENV=development FORMAT=es rollup -c ./rollup.config.js",
+    "build:es:min": "NODE_ENV=production FORMAT=es rollup -c ./rollup.config.js",
+    "clean": "rimraf ./umd ./es",
+    "prepare": "npm run build"
   },
+  "files": [
+    "es/",
+    "umd/",
+    "index.js"
+  ],
+  "repository": "https://github.com/hshoff/vx",
   "keywords": [
     "vx",
     "data",
@@ -21,17 +30,28 @@
   "author": "@andyfang_dz",
   "license": "MIT",
   "devDependencies": {
-    "babel-jest": "^21.2.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "colors": "^1.1.2",
     "enzyme": "^3.1.0",
     "enzyme-adapter-react-16": "^1.0.2",
     "jest": "^21.2.1",
     "raf": "^3.4.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "react-fatigue-dev": "github:tj/react-fatigue-dev",
     "react-test-renderer": "^16.0.0",
-    "react-tools": "^0.10.0",
-    "regenerator-runtime": "^0.10.5"
+    "rimraf": "^2.6.2",
+    "rollup": "^0.53.1",
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-babel-minify": "^3.1.2",
+    "rollup-plugin-buble": "^0.18.0",
+    "rollup-plugin-commonjs": "^8.2.6",
+    "rollup-plugin-filesize": "^1.5.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-replace": "^2.0.0",
+    "rollup-plugin-uglify": "^2.0.1"
   },
   "dependencies": {
     "@vx/group": "0.0.143",

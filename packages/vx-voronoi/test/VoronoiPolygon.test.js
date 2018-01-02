@@ -1,10 +1,12 @@
 import React from 'react';
-import { VoronoiPolygon } from '../src';
+import { VoronoiPolygon } from '../es/vx-voronoi.production';
 import { shallow } from 'enzyme';
 
 describe('<VoronoiPolygon />', () => {
   const data = [1, 2];
-  const polygon = Array(3).fill(null).map((_, i) => [i, i]);
+  const polygon = Array(3)
+    .fill(null)
+    .map((_, i) => [i, i]);
   polygon.data = data;
 
   const props = { polygon };

@@ -1,4 +1,4 @@
-import { genStats } from '../src';
+import { genStats } from '../es/vx-mock-data.production';
 
 describe('generators/genStats', () => {
   test('it should be defined', () => {

@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { LineRadial } from '../src';
+import { LineRadial } from '../es/vx-shape.production';
 
 const lineRadialProps = {
-  data: [{ x: 0, y: 0 }, { x: 1, y: 1 }],
+  data: [{ x: 0, y: 0 }, { x: 1, y: 1 }]
 };
 
 describe('<LineRadial />', () => {
@@ -19,7 +19,7 @@ describe('<LineRadial />', () => {
     };
     ReactDOM.render(
       <LineRadial innerRef={refCallback} {...lineRadialProps} />,
-      node,
+      node
     );
   });
 });

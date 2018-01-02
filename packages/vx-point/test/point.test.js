@@ -1,4 +1,4 @@
-import { Point } from '../';
+import { Point } from '../es/vx-point.production';
 
 describe('Point', () => {
   test('Point should be defined', () => {

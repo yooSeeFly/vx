@@ -1,5 +1,5 @@
 import React from 'react';
-import { BarStack } from '../src';
+import { BarStack } from '../es/vx-shape.production';
 import { shallow } from 'enzyme';
 
 const xScale = jest.fn();
@@ -24,7 +24,7 @@ describe('<BarStack />', () => {
         yScale={d => d}
         zScale={d => d}
         keys={[]}
-      />,
+      />
     );
     expect(wrapper.prop('className')).toEqual('vx-bar-stack');
   });
@@ -41,7 +41,7 @@ describe('<BarStack />', () => {
         yScale={d => d}
         zScale={d => d}
         keys={[]}
-      />,
+      />
     );
     expect(wrapper.prop('className')).toEqual('vx-bar-stack test');
   });
@@ -58,7 +58,7 @@ describe('<BarStack />', () => {
         yScale={d => d}
         zScale={d => d}
         keys={[]}
-      />,
+      />
     );
     expect(wrapper.prop('top')).toEqual(2);
     expect(wrapper.prop('left')).toEqual(3);

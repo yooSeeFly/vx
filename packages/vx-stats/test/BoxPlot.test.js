@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { scaleLinear } from '../../vx-scale';
-import { BoxPlot, computeStats } from '../src';
+import { BoxPlot, computeStats } from '../es/vx-stats.production';
 
 const data = [1, 2, 3, 4, 5, 6, 6, 7, 8, 9, 1];
 const { boxPlot: boxPlotData } = computeStats(data);
@@ -11,7 +11,7 @@ const {
   median,
   thirdQuartile,
   max,
-  outliers,
+  outliers
 } = boxPlotData;
 
 const valueScale = scaleLinear({
@@ -60,5 +60,4 @@ describe('<BoxPlot />', () => {
     expect(wrapper.find('line').length).toEqual(5);
     expect(wrapper.find('rect').length).toEqual(1);
   });
-
 });

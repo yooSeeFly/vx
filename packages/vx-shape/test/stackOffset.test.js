@@ -1,8 +1,8 @@
 import {
   stackOffset,
   STACK_OFFSETS,
-  STACK_OFFSET_NAMES,
-} from '../src';
+  STACK_OFFSET_NAMES
+} from '../es/vx-shape.production';
 
 describe('STACK_OFFSETS', () => {
   test('it should be defined', () => {

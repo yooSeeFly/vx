@@ -1,7 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { pointRadial } from 'd3-shape';
 import additionalProps from '../../../util/additionalProps';
 
 LinkVerticalCurve.propTypes = {
@@ -16,7 +15,6 @@ export default function LinkVerticalCurve({
   y = d => d.y,
   ...restProps
 }) {
-
   const curve = (source, target) => {
     const sx = x(source);
     const sy = y(source);
@@ -32,7 +30,7 @@ export default function LinkVerticalCurve({
       C${sx + ix},${sy + iy}
       ${tx + iy},${ty - ix}
       ${tx},${ty}
-    `;    
+    `;
   };
 
   return (

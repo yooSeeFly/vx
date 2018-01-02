@@ -1,7 +1,7 @@
-import { HeatmapRect } from '../src';
+import { HeatmapRect } from '../es/vx-heatmap.production';
 
 describe('<HeatmapRect />', () => {
   test('it should be defined', () => {
-    expect(HeatmapRect).toBeDefined()
-  })
-})
+    expect(HeatmapRect).toBeDefined();
+  });
+});

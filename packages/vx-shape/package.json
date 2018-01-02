@@ -4,7 +4,8 @@
   "description": "vx shape",
   "repository": "https://github.com/hshoff/vx",
   "main": "index.js",
-  "module": "es/vx-shape.production.min.js",
+  "module": "es/vx-shape.production.js",
+  "jsnext:main": "es/vx-shape.production.js",
   "scripts": {
     "test": "NODE_ENV=test jest",
     "build": "npm run clean && npm run build:umd && npm run build:umd:min && npm run build:es && npm run build:es:min",
@@ -13,10 +14,20 @@
     "build:es": "NODE_ENV=development FORMAT=es rollup -c ./rollup.config.js",
     "build:es:min": "NODE_ENV=production FORMAT=es rollup -c ./rollup.config.js",
     "clean": "rimraf ./umd ./es",
-    "prepublish": "npm run build"
+    "prepare": "npm run build"
   },
-  "files": ["es/", "umd/", "index.js"],
-  "keywords": ["vx", "react", "d3", "visualizations", "charts"],
+  "files": [
+    "es/",
+    "umd/",
+    "index.js"
+  ],
+  "keywords": [
+    "vx",
+    "react",
+    "d3",
+    "visualizations",
+    "charts"
+  ],
   "author": "@hshoff",
   "license": "MIT",
   "dependencies": {
@@ -29,9 +40,10 @@
   },
   "devDependencies": {
     "babel-plugin-external-helpers": "^6.22.0",
-    "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "colors": "^1.1.2",
     "d3-array": "^1.2.0",
     "d3-hierarchy": "^1.1.5",
     "enzyme": "^3.1.0",
@@ -46,7 +58,9 @@
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-babel-minify": "^3.1.2",
     "rollup-plugin-commonjs": "^8.2.6",
+    "rollup-plugin-filesize": "^1.5.0",
     "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-replace": "^2.0.0",
     "rollup-plugin-uglify": "^2.0.1"
   },
   "peerDependencies": {
@@ -56,6 +70,9 @@
     "access": "public"
   },
   "jest": {
-    "setupFiles": ["raf/polyfill", "<rootDir>/test/enzyme-setup.js"]
+    "setupFiles": [
+      "raf/polyfill",
+      "<rootDir>/test/enzyme-setup.js"
+    ]
   }
 }

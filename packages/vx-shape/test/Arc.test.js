@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Arc } from '../src';
+import { Arc } from '../es/vx-shape.production';
 import { browserUsage } from '../../vx-mock-data';
 
 const ArcWrapper = ({ ...restProps }) =>

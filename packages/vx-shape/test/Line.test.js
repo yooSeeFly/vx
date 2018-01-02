@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { shallow } from 'enzyme';
-import { Line } from '../src';
+import { Line } from '../es/vx-shape.production';
 
-const LineWrapper = ({ ...restProps }) =>
-  shallow(<Line {...restProps} />);
+const LineWrapper = ({ ...restProps }) => shallow(<Line {...restProps} />);
 
 describe('<Line />', () => {
   test('it should be defined', () => {

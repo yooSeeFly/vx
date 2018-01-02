@@ -1,34 +1,36 @@
 {
   "env": {
     "test": {
-      "presets": ["stage-0", "env"],
-      "plugins": ["transform-react-jsx"]
+      "presets": ["stage-0", "env", "react"],
+      "plugins": []
     },
     "development": {
       "presets": [
-        "stage-0",
         [
           "env",
           {
             "modules": false,
             "targets": { "browsers": ["> 1%", "last 2 versions", "IE 10"] }
           }
-        ]
+        ],
+        "stage-0",
+        "react"
       ],
-      "plugins": ["external-helpers", "transform-react-jsx"]
+      "plugins": ["external-helpers"]
     },
     "production": {
       "presets": [
-        "stage-0",
         [
           "env",
           {
             "modules": false,
             "targets": { "browsers": ["> 1%", "last 2 versions", "IE 10"] }
           }
-        ]
+        ],
+        "stage-0",
+        "react"
       ],
-      "plugins": ["external-helpers", "transform-react-jsx"]
+      "plugins": ["external-helpers"]
     }
   }
 }

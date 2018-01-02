@@ -1,4 +1,4 @@
-import { GlyphCross } from '../src';
+import { GlyphCross } from '../es/vx-glyph.production';
 
 describe('<GlyphCross />', () => {
   test('it should be defined', () => {

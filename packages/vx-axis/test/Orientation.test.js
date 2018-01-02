@@ -1,4 +1,4 @@
-import { Orientation } from '../src';
+import { Orientation } from '../es/vx-axis.production';
 
 describe('Orientation', () => {
   test('it should be defined', () => {

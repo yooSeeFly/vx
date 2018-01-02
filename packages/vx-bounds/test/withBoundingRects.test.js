@@ -1,7 +1,9 @@
 import React from 'react';
 import { mount } from 'enzyme';
-
-import { withBoundingRects, withBoundingRectsProps } from '../src/';
+import {
+  withBoundingRects,
+  withBoundingRectsProps
+} from '../es/vx-bounds.production';
 
 const expectedRectShape = expect.objectContaining({
   top: expect.any(Number),
@@ -9,7 +11,7 @@ const expectedRectShape = expect.objectContaining({
   bottom: expect.any(Number),
   left: expect.any(Number),
   width: expect.any(Number),
-  height: expect.any(Number),
+  height: expect.any(Number)
 });
 
 describe('withBoundingRects()', () => {
@@ -21,7 +23,7 @@ describe('withBoundingRects()', () => {
       top: 0,
       left: 0,
       bottom: 0,
-      right: 0,
+      right: 0
     }));
   });
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Group } from '../';
+import { Group } from '../es/vx-group.production';
 
 describe('<Group />', () => {
   test('it should be defined', () => {

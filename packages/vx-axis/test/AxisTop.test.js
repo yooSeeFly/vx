@@ -1,13 +1,13 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Axis, AxisTop } from '../src';
+import { Axis, AxisTop } from '../es/vx-axis.production';
 import { scaleLinear } from '../../vx-scale';
 
 const axisProps = {
   scale: scaleLinear({
     rangeRound: [10, 0],
-    domain: [0, 10],
-  }),
+    domain: [0, 10]
+  })
 };
 
 describe('<AxisTop />', () => {
@@ -50,7 +50,9 @@ describe('<AxisTop />', () => {
 
   test('it should set labelOffset prop', () => {
     const labelOffset = 3;
-    const wrapper = shallow(<AxisTop {...axisProps} labelOffset={labelOffset} />);
+    const wrapper = shallow(
+      <AxisTop {...axisProps} labelOffset={labelOffset} />
+    );
     expect(wrapper.prop('labelOffset')).toEqual(labelOffset);
   });
 
@@ -71,4 +73,4 @@ describe('<AxisTop />', () => {
     const text = wrapper.find('.vx-axis-label');
     expect(text.text()).toEqual(label);
   });
-})
+});

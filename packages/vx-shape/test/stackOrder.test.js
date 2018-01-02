@@ -1,4 +1,8 @@
-import { stackOrder, STACK_ORDERS, STACK_ORDER_NAMES } from '../src';
+import {
+  stackOrder,
+  STACK_ORDERS,
+  STACK_ORDER_NAMES
+} from '../es/vx-shape.production';
 
 describe('STACK_ORDERS', () => {
   test('it should be defined', () => {

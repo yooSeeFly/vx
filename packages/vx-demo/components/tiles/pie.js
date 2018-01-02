@@ -11,14 +11,7 @@ const browsers = Object.keys(browserUsage[0])
 
 function Label({ x, y, children }) {
   return (
-    <text
-      fill="white"
-      textAnchor="middle"
-      x={x}
-      y={y}
-      dy=".33em"
-      fontSize={9}
-    >
+    <text fill="white" textAnchor="middle" x={x} y={y} dy=".33em" fontSize={9}>
       {children}
     </text>
   );
@@ -32,8 +25,8 @@ export default ({
     top: 30,
     left: 20,
     right: 20,
-    bottom: 110,
-  },
+    bottom: 110
+  }
 }) => {
   if (width < 10) return null;
   const radius = Math.min(width, height) / 2;
@@ -63,7 +56,7 @@ export default ({
             const { startAngle, endAngle } = arc;
             if (endAngle - startAngle < 0.1) return null;
             return (
-              <Label x={x} y={y}>
+              <Label key={`${arc.data.label}`} x={x} y={y}>
                 {arc.data.label}
               </Label>
             );
@@ -78,7 +71,7 @@ export default ({
           centroid={(centroid, arc) => {
             const [x, y] = centroid;
             return (
-              <Label x={x} y={y}>
+              <Label key={`${arc.data.label}`} x={x} y={y}>
                 {arc.data.letter}
               </Label>
             );

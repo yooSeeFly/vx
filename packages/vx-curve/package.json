@@ -4,29 +4,23 @@
   "description": "vx curve",
   "repository": "https://github.com/hshoff/vx",
   "main": "index.js",
-  "module": "es/vx-curve.production.min.js",
+  "module": "es/vx-curve.production.js",
+  "jsnext:main": "es/vx-curve.production.js",
   "scripts": {
     "test": "NODE_ENV=test jest",
-    "build": "npm run clean && npm run build:umd && npm run build:umd:min && npm run build:es && npm run build:es:min",
+    "build":
+      "npm run clean && npm run build:umd && npm run build:umd:min && npm run build:es && npm run build:es:min",
     "build:umd": "NODE_ENV=development FORMAT=umd rollup -c ./rollup.config.js",
-    "build:umd:min": "NODE_ENV=production FORMAT=umd rollup -c ./rollup.config.js",
+    "build:umd:min":
+      "NODE_ENV=production FORMAT=umd rollup -c ./rollup.config.js",
     "build:es": "NODE_ENV=development FORMAT=es rollup -c ./rollup.config.js",
-    "build:es:min": "NODE_ENV=production FORMAT=es rollup -c ./rollup.config.js",
+    "build:es:min":
+      "NODE_ENV=production FORMAT=es rollup -c ./rollup.config.js",
     "clean": "rimraf ./umd ./es",
-    "prepublish": "npm run build"
+    "prepare": "npm run build"
   },
-  "files": [
-    "es/",
-    "umd/",
-    "index.js"
-  ],
-  "keywords": [
-    "vx",
-    "react",
-    "d3",
-    "visualization",
-    "chart"
-  ],
+  "files": ["es/", "umd/", "index.js"],
+  "keywords": ["vx", "react", "d3", "visualization", "chart"],
   "author": "@hshoff",
   "license": "MIT",
   "dependencies": {
@@ -36,7 +30,9 @@
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "colors": "^1.1.2",
     "enzyme": "^3.1.0",
     "enzyme-adapter-react-16": "^1.0.2",
     "jest": "^21.2.1",
@@ -49,16 +45,15 @@
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-babel-minify": "^3.1.2",
     "rollup-plugin-commonjs": "^8.2.6",
+    "rollup-plugin-filesize": "^1.5.0",
     "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-replace": "^2.0.0",
     "rollup-plugin-uglify": "^2.0.1"
   },
   "publishConfig": {
     "access": "public"
   },
   "jest": {
-    "setupFiles": [
-      "raf/polyfill",
-      "<rootDir>/test/enzyme-setup.js"
-    ]
+    "setupFiles": ["raf/polyfill", "<rootDir>/test/enzyme-setup.js"]
   }
 }

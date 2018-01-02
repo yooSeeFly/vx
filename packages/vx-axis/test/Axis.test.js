@@ -1,5 +1,5 @@
 import React from 'react';
-import { Axis } from '../src';
+import { Axis } from '../es/vx-axis.production';
 import { shallow } from 'enzyme';
 import { scaleLinear, scaleBand } from '../../vx-scale';
 import { Line } from '@vx/shape';
@@ -8,9 +8,9 @@ const axisProps = {
   orientation: 'left',
   scale: scaleLinear({
     rangeRound: [10, 0],
-    domain: [0, 10],
+    domain: [0, 10]
   }),
-  label: 'test axis',
+  label: 'test axis'
 };
 
 describe('<Axis />', () => {
@@ -43,7 +43,7 @@ describe('<Axis />', () => {
       'index',
       'from',
       'to',
-      'formattedValue',
+      'formattedValue'
     ]);
   });
 
@@ -60,27 +60,25 @@ describe('<Axis />', () => {
         axisLineClassName={axisLineClassName}
         labelClassName={labelClassName}
         tickClassName={tickClassName}
-      />,
+      />
     ).dive();
 
     expect(wrapper.find(`.${axisClassName}`).length).toBe(1);
     expect(wrapper.find(`.${axisLineClassName}`).length).toBe(1);
     expect(wrapper.find(`.${labelClassName}`).length).toBe(1);
-    expect(wrapper.find(`.${tickClassName}`).length).toBeGreaterThan(
-      0,
-    );
+    expect(wrapper.find(`.${tickClassName}`).length).toBeGreaterThan(0);
   });
 
   test('it should pass the output of tickLabelProps to tick labels', () => {
     const tickProps = { fontSize: 50, fill: 'magenta' };
     const wrapper = shallow(
-      <Axis {...axisProps} tickLabelProps={() => tickProps} />,
+      <Axis {...axisProps} tickLabelProps={() => tickProps} />
     );
 
     const ticks = wrapper.find('.vx-axis-tick');
     ticks.forEach(tick => {
       expect(tick.find('text').props()).toEqual(
-        expect.objectContaining(tickProps),
+        expect.objectContaining(tickProps)
       );
     });
 
@@ -96,7 +94,7 @@ describe('<Axis />', () => {
           expect(index).toBeGreaterThan(-1);
           return {};
         }}
-      />,
+      />
     );
 
     expect.hasAssertions();
@@ -104,13 +102,11 @@ describe('<Axis />', () => {
 
   test('it should pass labelProps to the axis label', () => {
     const labelProps = { fontSize: 50, fill: 'magenta' };
-    const wrapper = shallow(
-      <Axis {...axisProps} labelProps={labelProps} />,
-    );
+    const wrapper = shallow(<Axis {...axisProps} labelProps={labelProps} />);
 
     const label = wrapper.find('.vx-axis-label');
     expect(label.find('text').props()).toEqual(
-      expect.objectContaining(labelProps),
+      expect.objectContaining(labelProps)
     );
   });
 
@@ -120,7 +116,7 @@ describe('<Axis />', () => {
       wrapper
         .find('.vx-axis-tick')
         .at(0)
-        .key(),
+        .key()
     ).toBe('vx-tick-0-0');
   });
 
@@ -130,19 +126,17 @@ describe('<Axis />', () => {
       wrapper
         .find('.vx-axis-tick')
         .at(0)
-        .key(),
+        .key()
     ).toBe('vx-tick-1-1');
   });
 
   test('it should SHOW an axis line if hideAxisLine is false', () => {
-    const wrapper = shallow(
-      <Axis {...axisProps} hideAxisLine={false} />,
-    );
+    const wrapper = shallow(<Axis {...axisProps} hideAxisLine={false} />);
     expect(
       wrapper
         .children()
         .not('.vx-axis-tick')
-        .find('Line').length,
+        .find('Line').length
     ).toBe(1);
   });
 
@@ -152,19 +146,17 @@ describe('<Axis />', () => {
       wrapper
         .children()
         .not('.vx-axis-tick')
-        .find('Line').length,
+        .find('Line').length
     ).toBe(0);
   });
 
   test('it should SHOW ticks if hideTicks is false', () => {
-    const wrapper = shallow(
-      <Axis {...axisProps} hideTicks={false} />,
-    );
+    const wrapper = shallow(<Axis {...axisProps} hideTicks={false} />);
     expect(
       wrapper
         .children()
         .find('.vx-axis-tick')
-        .find('Line').length,
+        .find('Line').length
     ).toBeGreaterThan(0);
   });
 
@@ -174,7 +166,7 @@ describe('<Axis />', () => {
       wrapper
         .children()
         .find('.vx-axis-tick')
-        .find('Line').length,
+        .find('Line').length
     ).toBe(0);
   });
 
@@ -184,7 +176,7 @@ describe('<Axis />', () => {
       wrapper
         .children()
         .find('.vx-axis-tick')
-        .find('Line').length,
+        .find('Line').length
     ).toBe(0);
 
     wrapper = shallow(<Axis {...axisProps} tickValues={[0]} />);
@@ -192,17 +184,17 @@ describe('<Axis />', () => {
       wrapper
         .children()
         .find('.vx-axis-tick')
-        .find('Line').length,
+        .find('Line').length
     ).toBe(1);
 
     wrapper = shallow(
-      <Axis {...axisProps} tickValues={[0, 1, 2, 3, 4, 5, 6]} />,
+      <Axis {...axisProps} tickValues={[0, 1, 2, 3, 4, 5, 6]} />
     );
     expect(
       wrapper
         .children()
         .find('.vx-axis-tick')
-        .find('Line').length,
+        .find('Line').length
     ).toBe(7);
   });
 
@@ -212,31 +204,27 @@ describe('<Axis />', () => {
         {...axisProps}
         tickValues={[0]}
         tickFormat={(val, i) => 'test!!!'}
-      />,
+      />
     );
     expect(
       wrapper
         .children()
         .find('.vx-axis-tick')
         .find('text')
-        .text(),
+        .text()
     ).toBe('test!!!');
   });
 
   test('tickFormat should have access to tick index', () => {
     const wrapper = shallow(
-      <Axis
-        {...axisProps}
-        tickValues={[9]}
-        tickFormat={(val, i) => i}
-      />,
+      <Axis {...axisProps} tickValues={[9]} tickFormat={(val, i) => i} />
     );
     expect(
       wrapper
         .children()
         .find('.vx-axis-tick')
         .find('text')
-        .text(),
+        .text()
     ).toBe('0');
   });
 
@@ -244,22 +232,19 @@ describe('<Axis />', () => {
     const axisProps = {
       scale: scaleBand({
         rangeRound: [10, 0],
-        domain: [0, 10],
+        domain: [0, 10]
       })
     };
-    const wrapper = shallow(
-      <Axis {...axisProps} tickStroke="blue" />
-    )
-    const points = wrapper.children().find(Line)
+    const wrapper = shallow(<Axis {...axisProps} tickStroke="blue" />);
+    const points = wrapper.children().find(Line);
     // First point
-    expect(points.at(0).prop('from')).toEqual({x: 8, y: 0})
-    expect(points.at(0).prop('to')).toEqual({x: 8, y: 8})
+    expect(points.at(0).prop('from')).toEqual({ x: 8, y: 0 });
+    expect(points.at(0).prop('to')).toEqual({ x: 8, y: 8 });
     // Second point
-    expect(points.at(1).prop('from')).toEqual({x: 3, y: 0})
-    expect(points.at(1).prop('to')).toEqual({x: 3, y: 8})
+    expect(points.at(1).prop('from')).toEqual({ x: 3, y: 0 });
+    expect(points.at(1).prop('to')).toEqual({ x: 3, y: 8 });
     // Third point
-    expect(points.at(2).prop('from')).toEqual({x: 10.5, y: 0})
-    expect(points.at(2).prop('to')).toEqual({x: 0.5, y: 0})
-  })
-
+    expect(points.at(2).prop('from')).toEqual({ x: 10.5, y: 0 });
+    expect(points.at(2).prop('to')).toEqual({ x: 0.5, y: 0 });
+  });
 });
