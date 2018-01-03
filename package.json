@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "test": "lerna bootstrap && lerna exec npm run test",
+    "test":
+      "yarn install && lerna run build && lerna bootstrap && lerna run test",
     "docs": "node ./scripts/docs/index.js",
     "prepare-release":
       "git checkout master && git pull --rebase origin master && npm run docs && lerna updated",
@@ -25,6 +26,6 @@
   "license": "MIT",
   "devDependencies": {
     "coveralls": "^2.13.1",
-    "lerna": "2.5.1"
+    "lerna": "^2.5.1"
   }
 }
