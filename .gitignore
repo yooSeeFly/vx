@@ -12,4 +12,3 @@ test/tmp
 coverage
 package-lock.json
 npm-shrinkwrap.json
-yarn.lock
