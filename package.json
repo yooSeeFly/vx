@@ -6,8 +6,7 @@
   "main": "index.js",
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "test":
-      "yarn install && lerna run build && lerna bootstrap && lerna run test",
+    "test": "lerna bootstrap && lerna run test",
     "docs": "node ./scripts/docs/index.js",
     "prepare-release":
       "git checkout master && git pull --rebase origin master && npm run docs && lerna updated",
