@@ -15,7 +15,8 @@ export default function BarGroup({
   zScale,
   keys,
   height,
-  children
+  children,
+  ...restProps
 }) {
   const format = x0Scale.tickFormat ? x0Scale.tickFormat() : d => d;
   return (
@@ -27,7 +28,7 @@ export default function BarGroup({
               {keys &&
                 keys.map((key, ii) => {
                   const value = d[key];
-                  return children({
+                  const bar = {
                     key,
                     value,
                     format,
@@ -40,7 +41,19 @@ export default function BarGroup({
                     barWidth: x1Scale.bandwidth(),
                     barHeight: height - yScale(value),
                     barColor: zScale(key)
-                  });
+                  };
+                  if (children) return children(bar);
+                  return (
+                    <rect
+                      key={`bar-group-bar-${bar.index}-${bar.keyIndex}`}
+                      x={bar.x}
+                      y={bar.y}
+                      width={bar.barWidth}
+                      height={bar.barHeight}
+                      fill={bar.barColor}
+                      {...restProps}
+                    />
+                  );
                 })}
             </Group>
           );
@@ -50,7 +63,7 @@ export default function BarGroup({
 }
 
 BarGroup.propTypes = {
-  children: PropTypes.func.isRequired,
+  children: PropTypes.func,
   data: PropTypes.array.isRequired,
   x0: PropTypes.func.isRequired,
   x0Scale: PropTypes.func.isRequired,
