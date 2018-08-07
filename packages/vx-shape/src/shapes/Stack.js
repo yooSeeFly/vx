@@ -1,10 +1,9 @@
-import React from 'react';
-import cx from 'classnames';
 import { Group } from '@vx/group';
-import additionalProps from '../util/additionalProps';
-import stackOrder from '../util/stackOrder';
-import stackOffset from '../util/stackOffset';
+import cx from 'classnames';
 import { area, stack as d3stack } from 'd3-shape';
+import React from 'react';
+import stackOffset from '../util/stackOffset';
+import stackOrder from '../util/stackOrder';
 
 export default function Stack({
   className,
@@ -59,11 +58,7 @@ export default function Stack({
             className={cx('vx-stack', className)}
             key={`stack-${i}-${series.key || ''}`}
             d={path(series)}
-            {...additionalProps(restProps, {
-              datum: series[i],
-              index: i,
-              series
-            })}
+            {...restProps}
           />
         );
       })}

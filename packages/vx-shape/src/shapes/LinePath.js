@@ -3,7 +3,6 @@ import cx from 'classnames';
 import { line } from 'd3-shape';
 import PropTypes from 'prop-types';
 import React from 'react';
-import additionalProps from '../util/additionalProps';
 
 LinePath.propTypes = {
   innerRef: PropTypes.func,
@@ -55,7 +54,7 @@ export default function LinePath({
         strokeDasharray={strokeDasharray}
         strokeDashoffset={strokeDashoffset}
         fill={fill}
-        {...additionalProps(restProps, data)}
+        {...restProps}
       />
       {glyph && <g className="vx-linepath-glyphs">{data.map(glyph)}</g>}
     </g>

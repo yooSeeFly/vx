@@ -1,9 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cx from 'classnames';
 import { Group } from '@vx/group';
+import cx from 'classnames';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Bar from './Bar';
-import additionalProps from '../util/additionalProps';
 
 export default function BarGroup({
   data,

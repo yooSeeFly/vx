@@ -1,8 +1,7 @@
-import React from 'react';
 import cx from 'classnames';
-import PropTypes from 'prop-types';
 import { path as d3Path } from 'd3-path';
-import additionalProps from '../../../util/additionalProps';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export function pathRadialCurve({ source, target, x, y, percent }) {
   return data => {
@@ -60,12 +59,5 @@ export default function LinkRadialCurve({
   ...restProps
 }) {
   path = path || pathRadialCurve({ source, target, x, y, percent });
-  return (
-    <path
-      ref={innerRef}
-      className={cx('vx-link', className)}
-      d={path(data)}
-      {...additionalProps(restProps, data)}
-    />
-  );
+  return <path ref={innerRef} className={cx('vx-link', className)} d={path(data)} {...restProps} />;
 }

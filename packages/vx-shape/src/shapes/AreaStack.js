@@ -1,7 +1,6 @@
-import React from 'react';
 import cx from 'classnames';
-import additionalProps from '../util/additionalProps';
 import { area, stack as d3stack } from 'd3-shape';
+import React from 'react';
 
 export default function AreaStack({
   className,
@@ -43,11 +42,7 @@ export default function AreaStack({
             className={cx('vx-area-stack', className)}
             key={`area-stack-${i}-${series.key || ''}`}
             d={path(series)}
-            {...additionalProps(restProps, {
-              datum: series[i],
-              index: i,
-              series
-            })}
+            {...restProps}
           />
         );
       })}
