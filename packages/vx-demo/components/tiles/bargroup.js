@@ -1,11 +1,10 @@
-import React from 'react';
-import { BarGroup } from '@vx/shape';
-import { Group } from '@vx/group';
 import { AxisBottom } from '@vx/axis';
 import { cityTemperature } from '@vx/mock-data';
 import { scaleBand, scaleLinear, scaleOrdinal } from '@vx/scale';
-import { timeParse, timeFormat } from 'd3-time-format';
-import { extent, max } from 'd3-array';
+import { BarGroup } from '@vx/shape';
+import { max } from 'd3-array';
+import { timeFormat, timeParse } from 'd3-time-format';
+import React from 'react';
 
 const data = cityTemperature.slice(0, 8);
 const keys = Object.keys(data[0]).filter(d => d !== 'date');
@@ -70,12 +69,38 @@ export default ({
         x1Scale={x1Scale}
         yScale={yScale}
         zScale={zScale}
-        rx={4}
-        onClick={data => event => {
-          if (!events) return;
-          alert(`clicked: ${JSON.stringify(data)}`);
+      >
+        {({
+          key,
+          value,
+          format,
+          index,
+          keyIndex,
+          barGroupData,
+          x,
+          y,
+          x0,
+          barWidth,
+          barHeight,
+          barColor
+        }) => {
+          return (
+            <rect
+              key={`bar-group-bar-${index}-${value}-${key}`}
+              rx={4}
+              x={x}
+              y={y}
+              width={barWidth}
+              height={barHeight}
+              fill={barColor}
+              onClick={event => {
+                if (!events) return;
+                alert(`clicked ${JSON.stringify({ date: format(x0), key, value })}`);
+              }}
+            />
+          );
         }}
-      />
+      </BarGroup>
       <AxisBottom
         scale={x0Scale}
         top={yMax + margin.top}

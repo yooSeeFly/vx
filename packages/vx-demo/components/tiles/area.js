@@ -1,14 +1,13 @@
-import React from 'react';
-import { AreaClosed, Line, Bar } from '@vx/shape';
-import { appleStock } from '@vx/mock-data';
 import { curveMonotoneX } from '@vx/curve';
-import { LinearGradient } from '@vx/gradient';
-import { GridRows, GridColumns } from '@vx/grid';
-import { scaleTime, scaleLinear } from '@vx/scale';
-import { withTooltip, Tooltip } from '@vx/tooltip';
 import { localPoint } from '@vx/event';
-import { extent, max, bisector } from 'd3-array';
+import { GridColumns, GridRows } from '@vx/grid';
+import { appleStock } from '@vx/mock-data';
+import { scaleLinear, scaleTime } from '@vx/scale';
+import { AreaClosed, Bar, Line } from '@vx/shape';
+import { Tooltip, withTooltip } from '@vx/tooltip';
+import { bisector, extent, max } from 'd3-array';
 import { timeFormat } from 'd3-time-format';
+import React from 'react';
 
 const stock = appleStock.slice(800);
 const formatDate = timeFormat("%b %d, '%y");
@@ -23,13 +22,13 @@ class Area extends React.Component {
     super(props);
     this.handleTooltip = this.handleTooltip.bind(this);
   }
-  handleTooltip({ event, data, xStock, xScale, yScale }) {
+  handleTooltip({ event, xScale, yScale }) {
     const { showTooltip } = this.props;
     const { x } = localPoint(event);
     const x0 = xScale.invert(x);
-    const index = bisectDate(data, x0, 1);
-    const d0 = data[index - 1];
-    const d1 = data[index];
+    const index = bisectDate(stock, x0, 1);
+    const d0 = stock[index - 1];
+    const d1 = stock[index];
     let d = d0;
     if (d1 && d1.date) {
       d = x0 - xStock(d0.date) > xStock(d1.date) - x0 ? d1 : d0;
@@ -112,31 +111,28 @@ class Area extends React.Component {
             fill="transparent"
             rx={14}
             data={stock}
-            onTouchStart={data => event =>
+            onTouchStart={event =>
               this.handleTooltip({
                 event,
-                data,
-                xStock,
                 xScale,
                 yScale
-              })}
-            onTouchMove={data => event =>
+              })
+            }
+            onTouchMove={event =>
               this.handleTooltip({
                 event,
-                data,
-                xStock,
                 xScale,
                 yScale
-              })}
-            onMouseMove={data => event =>
+              })
+            }
+            onMouseMove={event =>
               this.handleTooltip({
                 event,
-                data,
-                xStock,
                 xScale,
                 yScale
-              })}
-            onMouseLeave={data => event => hideTooltip()}
+              })
+            }
+            onMouseLeave={event => hideTooltip()}
           />
           {tooltipData && (
             <g>

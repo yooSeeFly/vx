@@ -67,7 +67,7 @@ export default withTooltip(props => {
                 left={xScale(x(point))}
                 top={yScale(y(point))}
                 size={i % 3 === 0 ? 12 : 24}
-                onMouseEnter={() => event => {
+                onMouseEnter={event => {
                   if (tooltipTimeout) clearTimeout(tooltipTimeout);
                   props.showTooltip({
                     tooltipLeft: xScale(x(point)),
@@ -75,7 +75,7 @@ export default withTooltip(props => {
                     tooltipData: point
                   });
                 }}
-                onTouchStart={() => event => {
+                onTouchStart={event => {
                   if (tooltipTimeout) clearTimeout(tooltipTimeout);
                   props.showTooltip({
                     tooltipLeft: xScale(x(point)),
@@ -83,11 +83,10 @@ export default withTooltip(props => {
                     tooltipData: point
                   });
                 }}
-                onMouseLeave={() => event => {
+                onMouseLeave={event => {
                   tooltipTimeout = setTimeout(() => {
                     props.hideTooltip();
                   }, 300);
-                }}
               />
             );
           })}
