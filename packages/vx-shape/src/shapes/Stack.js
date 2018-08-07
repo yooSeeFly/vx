@@ -22,6 +22,7 @@ export default function Stack({
   order,
   offset,
   render,
+  children,
   reverse = false,
   ...restProps
 }) {
@@ -43,12 +44,21 @@ export default function Stack({
   const seriesData = stack(data);
   if (reverse) seriesData.reverse();
 
-  if (render)
+  if (render) {
     return (
       <Group top={top} left={left}>
         {render({ seriesData, path })}
       </Group>
     );
+  }
+
+  if (children) {
+    return (
+      <Group top={top} left={left}>
+        {children({ seriesData, path })}
+      </Group>
+    );
+  }
 
   return (
     <Group top={top} left={left}>
