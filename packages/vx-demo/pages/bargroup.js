@@ -93,7 +93,7 @@ export default ({
               height={barHeight}
               fill={barColor}
               onClick={event => {
-                alert(\`clicked \${JSON.stringify({ key, value })}\`);
+                alert(\`clicked \${JSON.stringify({ date: format(x0), key, value })}\`);
               }}
             />
           );

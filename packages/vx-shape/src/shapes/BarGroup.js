@@ -36,7 +36,7 @@ export default function BarGroup({
                     barGroupData: d,
                     x: x1Scale(key),
                     y: yScale(value),
-                    x0: x0Scale(x0(d)),
+                    x0: x0(d),
                     barWidth: x1Scale.bandwidth(),
                     barHeight: height - yScale(value),
                     barColor: zScale(key)
