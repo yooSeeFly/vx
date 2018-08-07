@@ -5,17 +5,16 @@ import BarStack from '../components/tiles/barstack';
 export default () => {
   return (
     <Show events margin={{ top: 80 }} component={BarStack} title="Bar Stack">
-      {`import React from 'react';
-import { BarStack } from '@vx/shape';
-import { Group } from '@vx/group';
+      {`import { AxisBottom } from '@vx/axis';
 import { Grid } from '@vx/grid';
-import { AxisBottom } from '@vx/axis';
+import { LegendOrdinal } from '@vx/legend';
 import { cityTemperature } from '@vx/mock-data';
 import { scaleBand, scaleLinear, scaleOrdinal } from '@vx/scale';
-import { timeParse, timeFormat } from 'd3-time-format';
-import { withTooltip, Tooltip } from '@vx/tooltip';
-import { LegendOrdinal } from '@vx/legend';
-import { extent, max } from 'd3-array';
+import { BarStack } from '@vx/shape';
+import { Tooltip, withTooltip } from '@vx/tooltip';
+import { max } from 'd3-array';
+import { timeFormat, timeParse } from 'd3-time-format';
+import React from 'react';
 
 const data = cityTemperature.slice(0, 12);
 
@@ -41,7 +40,6 @@ export default withTooltip(
   ({
     width,
     height,
-    events = false,
     margin = {
       top: 40
     },
@@ -52,8 +50,6 @@ export default withTooltip(
     hideTooltip,
     showTooltip
   }) => {
-    if (width < 10) return null;
-
     // bounds
     const xMax = width;
     const yMax = height - margin.top - 100;
@@ -80,7 +76,7 @@ export default withTooltip(
     return (
       <div style={{ position: 'relative' }}>
         <svg width={width} height={height}>
-          <rect x={0} y={0} width={width} height={height} fill={\`#eaedff\`} rx={14} />
+          <rect x={0} y={0} width={width} height={height} fill={"#eaedff"} rx={14} />
           <Grid
             top={margin.top}
             left={margin.left}
@@ -101,26 +97,41 @@ export default withTooltip(
             xScale={xScale}
             yScale={yScale}
             zScale={zScale}
-            onClick={data => event => {
-              if (!events) return;
-              alert(\`clicked: \${JSON.stringify(data)}\`);
+          >
+            {bar => {
+              return (
+                <rect
+                  key={\`bar-group-bar-\${bar.index}-\${bar.seriesIndex}\`}
+                  width={bar.barWidth}
+                  height={bar.barHeight}
+                  x={bar.x}
+                  y={bar.y}
+                  fill={bar.barColor}
+                  onClick={event => {
+                    if (!events) return;
+                    alert(
+                      \`clicked: \${JSON.stringify({ date: bar.format(bar.x0), ...bar }, null, 4)}\`
+                    );
+                  }}
+                  onMouseLeave={event => {
+                    tooltipTimeout = setTimeout(() => {
+                      hideTooltip();
+                    }, 300);
+                  }}
+                  onMouseMove={event => {
+                    if (tooltipTimeout) clearTimeout(tooltipTimeout);
+                    const top = event.clientY - margin.top - bar.barHeight;
+                    const left = bar.x + bar.barWidth + (bar.paddingInner * bar.step) / 2;
+                    showTooltip({
+                      tooltipData: bar,
+                      tooltipTop: top,
+                      tooltipLeft: left
+                    });
+                  }}
+                />
+              );
             }}
-            onMouseLeave={data => event => {
-              tooltipTimeout = setTimeout(() => {
-                hideTooltip();
-              }, 300);
-            }}
-            onMouseMove={data => event => {
-              if (tooltipTimeout) clearTimeout(tooltipTimeout);
-              const top = event.clientY - margin.top - data.height;
-              const left = xScale(data.x) + data.width + data.paddingInner * data.step / 2;
-              showTooltip({
-                tooltipData: data,
-                tooltipTop: top,
-                tooltipLeft: left
-              });
-            }}
-          />
+          </BarStack>
           <AxisBottom
             scale={xScale}
             top={yMax + margin.top}
@@ -158,9 +169,9 @@ export default withTooltip(
             <div style={{ color: zScale(tooltipData.key) }}>
               <strong>{tooltipData.key}</strong>
             </div>
-            <div>{tooltipData.data[tooltipData.key]}℉</div>
+            <div>{tooltipData.value}℉</div>
             <div>
-              <small>{tooltipData.xFormatted}</small>
+              <small>{tooltipData.format(tooltipData.x0)}</small>
             </div>
           </Tooltip>
         )}
