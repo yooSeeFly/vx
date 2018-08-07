@@ -1,7 +1,6 @@
-import React from 'react';
 import cx from 'classnames';
 import { arc as d3Arc } from 'd3-shape';
-import additionalProps from '../util/additionalProps';
+import React from 'react';
 
 export default function Arc({
   className,
@@ -25,7 +24,5 @@ export default function Arc({
   if (endAngle) arc.endAngle(endAngle);
   if (padAngle) arc.padAngle(padAngle);
   if (padRadius) arc.padRadius(padRadius);
-  return (
-    <path className={cx('vx-arc', className)} d={arc(data)} {...additionalProps(restProps, data)} />
-  );
+  return <path className={cx('vx-arc', className)} d={arc(data)} {...restProps} />;
 }

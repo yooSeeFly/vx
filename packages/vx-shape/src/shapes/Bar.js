@@ -1,7 +1,6 @@
-import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import additionalProps from '../util/additionalProps';
+import React from 'react';
 
 Bar.propTypes = {
   innerRef: PropTypes.func
@@ -47,7 +46,7 @@ export default function Bar({
       strokeLinejoin={strokeLinejoin}
       strokeMiterlimit={strokeMiterlimit}
       strokeOpacity={strokeOpacity}
-      {...additionalProps(restProps, data)}
+      {...restProps}
     />
   );
 }

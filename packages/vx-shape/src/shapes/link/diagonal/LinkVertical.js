@@ -1,8 +1,7 @@
-import React from 'react';
 import cx from 'classnames';
-import PropTypes from 'prop-types';
 import { linkVertical } from 'd3-shape';
-import additionalProps from '../../../util/additionalProps';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export function pathVerticalDiagonal({ source, target, x, y }) {
   return data => {
@@ -41,7 +40,7 @@ export default function LinkVertical({
       ref={innerRef}
       className={cx('vx-link-vertical', className)}
       d={path(data)}
-      {...additionalProps(restProps, data)}
+      {...restProps}
     />
   );
 }

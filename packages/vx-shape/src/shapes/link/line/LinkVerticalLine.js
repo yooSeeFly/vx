@@ -1,8 +1,7 @@
-import React from 'react';
 import cx from 'classnames';
-import PropTypes from 'prop-types';
 import { path as d3Path } from 'd3-path';
-import additionalProps from '../../../util/additionalProps';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export function pathVerticalLine({ source, target, x, y }) {
   return data => {
@@ -43,12 +42,5 @@ export default function LinkVerticalLine({
   ...restProps
 }) {
   path = path || pathVerticalLine({ source, target, x, y });
-  return (
-    <path
-      ref={innerRef}
-      className={cx('vx-link', className)}
-      d={path(data)}
-      {...additionalProps(restProps, data)}
-    />
-  );
+  return <path ref={innerRef} className={cx('vx-link', className)} d={path(data)} {...restProps} />;
 }

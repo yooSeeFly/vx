@@ -1,8 +1,7 @@
-import React from 'react';
 import cx from 'classnames';
-import PropTypes from 'prop-types';
 import { area } from 'd3-shape';
-import additionalProps from '../util/additionalProps';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 AreaClosed.propTypes = {
   innerRef: PropTypes.func
@@ -41,7 +40,7 @@ export default function AreaClosed({
         strokeWidth={strokeWidth}
         strokeDasharray={strokeDasharray}
         fill={fill}
-        {...additionalProps(restProps, data)}
+        {...restProps}
       />
     </g>
   );

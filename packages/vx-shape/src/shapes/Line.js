@@ -1,8 +1,7 @@
-import React from 'react';
+import { Point } from '@vx/point';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { Point } from '@vx/point';
-import additionalProps from '../util/additionalProps';
+import React from 'react';
 
 Line.propTypes = {
   innerRef: PropTypes.func
@@ -32,7 +31,7 @@ export default function Line({
       strokeWidth={strokeWidth}
       strokeDasharray={strokeDasharray}
       transform={transform}
-      {...additionalProps(restProps, data)}
+      {...restProps}
     />
   );
 }

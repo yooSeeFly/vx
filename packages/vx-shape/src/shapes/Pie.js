@@ -1,8 +1,7 @@
-import React from 'react';
-import cx from 'classnames';
 import { Group } from '@vx/group';
+import cx from 'classnames';
 import { arc as d3Arc, pie as d3Pie } from 'd3-shape';
-import additionalProps from '../util/additionalProps';
+import React from 'react';
 
 export default function Pie({
   className = '',
@@ -41,11 +40,7 @@ export default function Pie({
     generatePathProps: (arc, index) => ({
       className: cx('vx-pie-arc', className),
       d: path(arc),
-      ...additionalProps(restProps, {
-        ...arc,
-        index,
-        centroid: centroid ? path.centroid(arc) : undefined
-      })
+      ...restProps
     }),
     generateCentroid: arc => centroid && centroid(path.centroid(arc), arc)
   };
