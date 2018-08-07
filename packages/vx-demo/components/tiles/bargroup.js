@@ -70,32 +70,19 @@ export default ({
         yScale={yScale}
         zScale={zScale}
       >
-        {({
-          key,
-          value,
-          format,
-          index,
-          keyIndex,
-          barGroupData,
-          x,
-          y,
-          x0,
-          barWidth,
-          barHeight,
-          barColor
-        }) => {
+        {bar => {
           return (
             <rect
-              key={`bar-group-bar-${index}-${value}-${key}`}
+              key={`bar-group-bar-${bar.index}-${bar.keyIndex}`}
               rx={4}
-              x={x}
-              y={y}
-              width={barWidth}
-              height={barHeight}
-              fill={barColor}
+              x={bar.x}
+              y={bar.y}
+              width={bar.barWidth}
+              height={bar.barHeight}
+              fill={bar.barColor}
               onClick={event => {
                 if (!events) return;
-                alert(`clicked ${JSON.stringify({ date: format(x0), key, value })}`);
+                alert(`clicked ${JSON.stringify({ date: bar.format(bar.x0), ...bar })}`);
               }}
             />
           );

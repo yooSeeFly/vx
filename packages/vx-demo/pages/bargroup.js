@@ -5,7 +5,15 @@ import BarGroup from '../components/tiles/bargroup';
 export default () => {
   return (
     <Show events={true} margin={{ top: 80 }} component={BarGroup} title="Bar Group">
-      {`const data = cityTemperature.slice(0, 8);
+      {`import { AxisBottom } from '@vx/axis';
+import { cityTemperature } from '@vx/mock-data';
+import { scaleBand, scaleLinear, scaleOrdinal } from '@vx/scale';
+import { BarGroup } from '@vx/shape';
+import { max } from 'd3-array';
+import { timeFormat, timeParse } from 'd3-time-format';
+import React from 'react';
+
+const data = cityTemperature.slice(0, 8);
 const keys = Object.keys(data[0]).filter(d => d !== 'date');
 const parseDate = timeParse('%Y%m%d');
 const format = timeFormat('%b %d');
@@ -18,13 +26,10 @@ const y = d => d.value;
 export default ({
   width,
   height,
-  events = false,
   margin = {
     top: 40
   }
 }) => {
-  if (width < 10) return null;
-
   // bounds
   const xMax = width;
   const yMax = height - margin.top - 100;
@@ -69,31 +74,18 @@ export default ({
         yScale={yScale}
         zScale={zScale}
       >
-        {({
-          key,
-          value,
-          format,
-          index,
-          keyIndex,
-          barGroupData,
-          x,
-          y,
-          x0,
-          barWidth,
-          barHeight,
-          barColor
-        }) => {
+        {bar => {
           return (
             <rect
-              key={\`bar-group-bar-\${index}-\${value}-\${key}\`}
+              key={\`bar-group-bar-\${bar.index}-\${bar.keyIndex}\`}
               rx={4}
-              x={x}
-              y={y}
-              width={barWidth}
-              height={barHeight}
-              fill={barColor}
+              x={bar.x}
+              y={bar.y}
+              width={bar.barWidth}
+              height={bar.barHeight}
+              fill={bar.barColor}
               onClick={event => {
-                alert(\`clicked \${JSON.stringify({ date: format(x0), key, value })}\`);
+                alert(\`clicked \${JSON.stringify({ date: bar.format(bar.x0), ...bar })}\`);
               }}
             />
           );
