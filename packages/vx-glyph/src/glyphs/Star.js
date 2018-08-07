@@ -1,8 +1,7 @@
-import React from 'react';
 import cx from 'classnames';
 import { symbol, symbolStar } from 'd3-shape';
+import React from 'react';
 import Glyph from './Glyph';
-import additionalProps from '../util/additionalProps';
 
 export default function GlyphStar({ children, className, top, left, size, ...restProps }) {
   const path = symbol();
@@ -10,7 +9,7 @@ export default function GlyphStar({ children, className, top, left, size, ...res
   if (size) path.size(size);
   return (
     <Glyph top={top} left={left}>
-      <path className={cx('vx-glyph-star', className)} d={path()} {...additionalProps(restProps)} />
+      <path className={cx('vx-glyph-star', className)} d={path()} {...restProps} />
       {children}
     </Glyph>
   );

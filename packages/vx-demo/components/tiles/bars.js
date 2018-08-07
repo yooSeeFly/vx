@@ -1,10 +1,10 @@
-import React from 'react';
-import { Bar } from '@vx/shape';
-import { Group } from '@vx/group';
 import { GradientTealBlue } from '@vx/gradient';
+import { Group } from '@vx/group';
 import { letterFrequency } from '@vx/mock-data';
 import { scaleBand, scaleLinear } from '@vx/scale';
-import { extent, max } from 'd3-array';
+import { Bar } from '@vx/shape';
+import { max } from 'd3-array';
+import React from 'react';
 
 const data = letterFrequency.slice(5);
 
@@ -41,19 +41,20 @@ export default ({ width, height, events = false }) => {
       <rect x={0} y={0} width={width} height={height} fill={`url(#teal)`} rx={14} />
       <Group top={40}>
         {data.map((d, i) => {
-          const barHeight = yMax - yScale(y(d));
+          const datum = { x: x(d), y: y(d) };
+          const barHeight = yMax - yScale(datum.y);
           return (
-            <Group key={`bar-${x(d)}`}>
+            <Group key={`bar-${datum.x}`}>
               <Bar
                 width={xScale.bandwidth()}
                 height={barHeight}
-                x={xScale(x(d))}
+                x={xScale(datum.x)}
                 y={yMax - barHeight}
                 fill="rgba(23, 233, 217, .5)"
-                data={{ x: x(d), y: y(d) }}
-                onClick={data => event => {
+                data={datum}
+                onClick={event => {
                   if (!events) return;
-                  alert(`clicked: ${JSON.stringify(data)}`);
+                  alert(`clicked: ${JSON.stringify(datum)}`);
                 }}
               />
             </Group>
