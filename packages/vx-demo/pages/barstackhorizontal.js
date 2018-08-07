@@ -15,16 +15,16 @@ export default () => {
       component={BarStackHorizontal}
       title="Bar Stack Horizontal"
     >
-      {`import React from 'react';
-import { BarStackHorizontal } from '@vx/shape';
+      {`import { AxisBottom, AxisLeft } from '@vx/axis';
 import { Group } from '@vx/group';
-import { AxisBottom, AxisLeft } from '@vx/axis';
+import { LegendOrdinal } from '@vx/legend';
 import { cityTemperature } from '@vx/mock-data';
 import { scaleBand, scaleLinear, scaleOrdinal } from '@vx/scale';
-import { timeParse, timeFormat } from 'd3-time-format';
-import { withTooltip, Tooltip } from '@vx/tooltip';
-import { LegendOrdinal } from '@vx/legend';
-import { extent, max } from 'd3-array';
+import { BarStackHorizontal } from '@vx/shape';
+import { Tooltip, withTooltip } from '@vx/tooltip';
+import { max } from 'd3-array';
+import { timeFormat, timeParse } from 'd3-time-format';
+import React from 'react';
 
 const data = cityTemperature.slice(0, 12);
 const keys = Object.keys(data[0]).filter(d => d !== 'date');
@@ -45,22 +45,19 @@ export default withTooltip(
   ({
     width,
     height,
-    events = false,
     margin = {
       top: 40,
       left: 50,
       right: 40,
-      bottom: 100,
+      bottom: 100
     },
     tooltipOpen,
     tooltipLeft,
     tooltipTop,
     tooltipData,
     hideTooltip,
-    showTooltip,
+    showTooltip
   }) => {
-    if (width < 10) return null;
-
     // accessors
     const y = d => d.date;
     const x = d => d.value;
@@ -73,17 +70,17 @@ export default withTooltip(
     const xScale = scaleLinear({
       rangeRound: [0, xMax],
       domain: [0, max(totals)],
-      nice: true,
+      nice: true
     });
     const yScale = scaleBand({
       rangeRound: [yMax, 0],
       domain: data.map(y),
       padding: 0.2,
-      tickFormat: () => val => formatDate(val),
+      tickFormat: () => val => formatDate(val)
     });
     const zScale = scaleOrdinal({
       domain: keys,
-      range: ['#6c5efb', '#c998ff', '#a44afe'],
+      range: ['#6c5efb', '#c998ff', '#a44afe']
     });
 
     let tooltipTimeout;
@@ -91,14 +88,7 @@ export default withTooltip(
     return (
       <div style={{ position: 'relative' }}>
         <svg width={width} height={height}>
-          <rect
-            x={0}
-            y={0}
-            width={width}
-            height={height}
-            fill="#eaedff"
-            rx={14}
-          />
+          <rect x={0} y={0} width={width} height={height} fill="#eaedff" rx={14} />
           <Group top={margin.top} left={margin.left}>
             <BarStackHorizontal
               data={data}
@@ -108,24 +98,38 @@ export default withTooltip(
               xScale={xScale}
               yScale={yScale}
               zScale={zScale}
-              onClick={data => event => {
-                if (!events) return;
-                alert(\`clicked: \${JSON.stringify(data)}\`);
+            >
+              {bar => {
+                return (
+                  <rect
+                    key={\`bar-group-bar-horizontal-\${bar.index}-\${bar.seriesIndex}\`}
+                    x={bar.x}
+                    y={bar.y}
+                    width={bar.barWidth}
+                    height={bar.barHeight}
+                    fill={bar.barColor}
+                    onClick={event => {
+                      alert(
+                        \`clicked: \${JSON.stringify({ date: bar.format(bar.y0), ...bar }, null, 4)}\`
+                      );
+                    }}
+                    onMouseLeave={event => {
+                      tooltipTimeout = setTimeout(() => {
+                        hideTooltip();
+                      }, 300);
+                    }}
+                    onMouseMove={event => {
+                      if (tooltipTimeout) clearTimeout(tooltipTimeout);
+                      showTooltip({
+                        tooltipData: bar,
+                        tooltipTop: margin.top + bar.y,
+                        tooltipLeft: margin.left + bar.barWidth + bar.x
+                      });
+                    }}
+                  />
+                );
               }}
-              onMouseLeave={data => event => {
-                tooltipTimeout = setTimeout(() => {
-                  hideTooltip();
-                }, 300);
-              }}
-              onMouseMove={data => event => {
-                if (tooltipTimeout) clearTimeout(tooltipTimeout);
-                showTooltip({
-                  tooltipData: data,
-                  tooltipTop: margin.top + yScale(y(data.data)),
-                  tooltipLeft: margin.left + data.width + 75,
-                });
-              }}
-            />
+            </BarStackHorizontal>
             <AxisLeft
               hideAxisLine={true}
               hideTicks={true}
@@ -136,7 +140,7 @@ export default withTooltip(
                 fill: '#a44afe',
                 fontSize: 11,
                 textAnchor: 'end',
-                dy: '0.33em',
+                dy: '0.33em'
               })}
             />
             <AxisBottom
@@ -147,7 +151,7 @@ export default withTooltip(
               tickLabelProps={(value, index) => ({
                 fill: '#a44afe',
                 fontSize: 11,
-                textAnchor: 'middle',
+                textAnchor: 'middle'
               })}
             />
           </Group>
@@ -159,14 +163,10 @@ export default withTooltip(
             width: '100%',
             display: 'flex',
             justifyContent: 'center',
-            fontSize: '14px',
+            fontSize: '14px'
           }}
         >
-          <LegendOrdinal
-            scale={zScale}
-            direction="row"
-            labelMargin="0 15px 0 0"
-          />
+          <LegendOrdinal scale={zScale} direction="row" labelMargin="0 15px 0 0" />
         </div>
         {tooltipOpen && (
           <Tooltip
@@ -175,21 +175,21 @@ export default withTooltip(
             style={{
               minWidth: 60,
               backgroundColor: 'rgba(0,0,0,0.9)',
-              color: 'white',
+              color: 'white'
             }}
           >
-            <div style={{ color: zScale(tooltipData.key) }}>
+            <div style={{ color: tooltipData.barColor }}>
               <strong>{tooltipData.key}</strong>
             </div>
-            <div>{tooltipData.data[tooltipData.key]}℉</div>
+            <div>{tooltipData.value}℉</div>
             <div>
-              <small>{tooltipData.xFormatted}</small>
+              <small>{tooltipData.format(tooltipData.y0)}</small>
             </div>
           </Tooltip>
         )}
       </div>
     );
-  },
+  }
 );`}
     </Show>
   );

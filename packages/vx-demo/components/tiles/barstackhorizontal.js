@@ -1,13 +1,13 @@
-import React from 'react';
-import { BarStackHorizontal } from '@vx/shape';
-import { Group } from '@vx/group';
 import { AxisBottom, AxisLeft } from '@vx/axis';
+import { Group } from '@vx/group';
+import { LegendOrdinal } from '@vx/legend';
 import { cityTemperature } from '@vx/mock-data';
 import { scaleBand, scaleLinear, scaleOrdinal } from '@vx/scale';
-import { timeParse, timeFormat } from 'd3-time-format';
-import { withTooltip, Tooltip } from '@vx/tooltip';
-import { LegendOrdinal } from '@vx/legend';
-import { extent, max } from 'd3-array';
+import { BarStackHorizontal } from '@vx/shape';
+import { Tooltip, withTooltip } from '@vx/tooltip';
+import { max } from 'd3-array';
+import { timeFormat, timeParse } from 'd3-time-format';
+import React from 'react';
 
 const data = cityTemperature.slice(0, 12);
 const keys = Object.keys(data[0]).filter(d => d !== 'date');
@@ -84,24 +84,39 @@ export default withTooltip(
               xScale={xScale}
               yScale={yScale}
               zScale={zScale}
-              onClick={data => event => {
-                if (!events) return;
-                alert(`clicked: ${JSON.stringify(data)}`);
+            >
+              {bar => {
+                return (
+                  <rect
+                    key={`bar-group-bar-horizontal-${bar.index}-${bar.seriesIndex}`}
+                    x={bar.x}
+                    y={bar.y}
+                    width={bar.barWidth}
+                    height={bar.barHeight}
+                    fill={bar.barColor}
+                    onClick={event => {
+                      if (!events) return;
+                      alert(
+                        `clicked: ${JSON.stringify({ date: bar.format(bar.y0), ...bar }, null, 4)}`
+                      );
+                    }}
+                    onMouseLeave={event => {
+                      tooltipTimeout = setTimeout(() => {
+                        hideTooltip();
+                      }, 300);
+                    }}
+                    onMouseMove={event => {
+                      if (tooltipTimeout) clearTimeout(tooltipTimeout);
+                      showTooltip({
+                        tooltipData: bar,
+                        tooltipTop: margin.top + bar.y,
+                        tooltipLeft: margin.left + bar.barWidth + bar.x
+                      });
+                    }}
+                  />
+                );
               }}
-              onMouseLeave={data => event => {
-                tooltipTimeout = setTimeout(() => {
-                  hideTooltip();
-                }, 300);
-              }}
-              onMouseMove={data => event => {
-                if (tooltipTimeout) clearTimeout(tooltipTimeout);
-                showTooltip({
-                  tooltipData: data,
-                  tooltipTop: margin.top + yScale(y(data.data)),
-                  tooltipLeft: margin.left + data.width + 75
-                });
-              }}
-            />
+            </BarStackHorizontal>
             <AxisLeft
               hideAxisLine={true}
               hideTicks={true}
@@ -150,12 +165,12 @@ export default withTooltip(
               color: 'white'
             }}
           >
-            <div style={{ color: zScale(tooltipData.key) }}>
+            <div style={{ color: tooltipData.barColor }}>
               <strong>{tooltipData.key}</strong>
             </div>
-            <div>{tooltipData.data[tooltipData.key]}℉</div>
+            <div>{tooltipData.value}℉</div>
             <div>
-              <small>{tooltipData.xFormatted}</small>
+              <small>{tooltipData.format(tooltipData.y0)}</small>
             </div>
           </Tooltip>
         )}

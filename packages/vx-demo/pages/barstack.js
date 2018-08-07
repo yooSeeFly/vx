@@ -108,7 +108,6 @@ export default withTooltip(
                   y={bar.y}
                   fill={bar.barColor}
                   onClick={event => {
-                    if (!events) return;
                     alert(
                       \`clicked: \${JSON.stringify({ date: bar.format(bar.x0), ...bar }, null, 4)}\`
                     );

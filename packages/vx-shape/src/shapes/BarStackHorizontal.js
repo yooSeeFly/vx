@@ -1,9 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cx from 'classnames';
 import { Group } from '@vx/group';
-import Bar from './Bar';
+import cx from 'classnames';
 import { stack as d3stack } from 'd3-shape';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export default function BarStackHorizontal({
   data,
@@ -16,14 +15,16 @@ export default function BarStackHorizontal({
   zScale,
   keys,
   height,
+  children,
   ...restProps
 }) {
   const series = d3stack().keys(keys)(data);
   const format = yScale.tickFormat ? yScale.tickFormat() : d => d;
-  const bandwidth = yScale.bandwidth();
+  const barHeight = yScale.bandwidth();
   const step = yScale.step();
   const paddingInner = yScale.paddingInner();
   const paddingOuter = yScale.paddingOuter();
+
   return (
     <Group className={cx('vx-bar-stack-horizontal', className)} top={top} left={left}>
       {series &&
@@ -32,27 +33,33 @@ export default function BarStackHorizontal({
             <Group key={`vx-bar-stack-horizontal-${i}`}>
               {s.map((d, ii) => {
                 const barWidth = xScale(d[1]) - xScale(d[0]);
+                const bar = {
+                  key: s.key,
+                  value: d.data[s.key],
+                  values: [d[0], d[1]],
+                  index: i,
+                  seriesIndex: ii,
+                  x: xScale(d[0]),
+                  y: yScale(y(d.data)),
+                  y0: y(d.data),
+                  barColor: zScale(s.key),
+                  barWidth,
+                  barHeight,
+                  step,
+                  paddingInner,
+                  paddingOuter,
+                  format,
+                  seriesData: d.data
+                };
+                if (children) return children(bar);
                 return (
-                  <Bar
-                    key={`bar-group-bar-${i}-${ii}-${s.key}`}
-                    x={xScale(d[0])}
-                    y={yScale(y(d.data))}
-                    width={barWidth}
-                    height={bandwidth}
-                    fill={zScale(s.key)}
-                    data={{
-                      bandwidth,
-                      paddingInner,
-                      paddingOuter,
-                      step,
-                      key: s.key,
-                      value: d[0],
-                      height: bandwidth,
-                      width: barWidth,
-                      y: y(d.data),
-                      yFormatted: format(y(d.data)),
-                      data: d.data
-                    }}
+                  <rect
+                    key={`bar-group-bar-horizontal-${bar.index}-${bar.seriesIndex}`}
+                    x={bar.x}
+                    y={bar.y}
+                    width={bar.barWidth}
+                    height={bar.barHeight}
+                    fill={bar.barColor}
                     {...restProps}
                   />
                 );
@@ -73,5 +80,6 @@ BarStackHorizontal.propTypes = {
   keys: PropTypes.array.isRequired,
   className: PropTypes.string,
   top: PropTypes.number,
-  left: PropTypes.number
+  left: PropTypes.number,
+  children: PropTypes.func
 };
