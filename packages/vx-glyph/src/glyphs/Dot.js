@@ -1,5 +1,5 @@
-import React from 'react';
 import classnames from 'classnames';
+import React from 'react';
 import Glyph from './Glyph';
 
 export default function GlyphDot({

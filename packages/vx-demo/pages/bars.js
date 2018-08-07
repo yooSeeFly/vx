@@ -57,24 +57,25 @@ export default ({
         rx={14}
       />
       <Group top={40}>
-        {data.map((d, i) => {
-          const barHeight = yMax - yScale(y(d));
-          return (
-            <Group key={\`bar-\${x(d)}\`}>
-              <Bar
-                width={xScale.bandwidth()}
-                height={barHeight}
-                x={xScale(x(d))}
-                y={yMax - barHeight}
-                fill="rgba(23, 233, 217, .5)"
-                data={{ x: x(d), y: y(d) }}
-                onClick={data => event => {
-                  alert(\`clicked: \${JSON.stringify(data)}\`)
-                }}
-              />
-            </Group>
-          );
-        })}
+      {data.map((d, i) => {
+        const datum = { x: x(d), y: y(d) };
+        const barHeight = yMax - yScale(datum.y);
+        return (
+          <Group key={\`bar-\${datum.x}\`}>
+            <Bar
+              width={xScale.bandwidth()}
+              height={barHeight}
+              x={xScale(datum.x)}
+              y={yMax - barHeight}
+              fill="rgba(23, 233, 217, .5)"
+              data={datum}
+              onClick={event => {
+                alert(\`clicked: \${JSON.stringify(datum)}\`);
+              }}
+            />
+          </Group>
+        );
+      })}
       </Group>
     </svg>
   );

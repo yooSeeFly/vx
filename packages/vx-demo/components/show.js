@@ -1,11 +1,9 @@
-import React from 'react';
-import cx from 'classnames';
 import { withScreenSize } from '@vx/responsive';
-import Page from '../components/page';
-import Footer from '../components/footer';
-import Bars from '../components/tiles/bars';
+import cx from 'classnames';
+import React from 'react';
 import Codeblock from '../components/codeblocks/Codeblock';
 import Gallery from '../components/gallery';
+import Page from '../components/page';
 
 export default withScreenSize(
   ({

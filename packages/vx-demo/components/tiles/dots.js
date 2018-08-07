@@ -1,10 +1,10 @@
-import React from 'react';
-import { Group } from '@vx/group';
 import { GlyphCircle } from '@vx/glyph';
 import { GradientPinkRed } from '@vx/gradient';
-import { scaleLinear } from '@vx/scale';
+import { Group } from '@vx/group';
 import { genRandomNormalPoints } from '@vx/mock-data';
-import { withTooltip, Tooltip } from '@vx/tooltip';
+import { scaleLinear } from '@vx/scale';
+import { Tooltip, withTooltip } from '@vx/tooltip';
+import React from 'react';
 
 const points = genRandomNormalPoints(600).filter((d, i) => {
   return i < 600;
@@ -53,7 +53,7 @@ export default withTooltip(props => {
                 left={xScale(x(point))}
                 top={yScale(y(point))}
                 size={i % 3 === 0 ? 12 : 24}
-                onMouseEnter={() => event => {
+                onMouseEnter={event => {
                   if (tooltipTimeout) clearTimeout(tooltipTimeout);
                   props.showTooltip({
                     tooltipLeft: xScale(x(point)),
@@ -61,7 +61,7 @@ export default withTooltip(props => {
                     tooltipData: point
                   });
                 }}
-                onTouchStart={() => event => {
+                onTouchStart={event => {
                   if (tooltipTimeout) clearTimeout(tooltipTimeout);
                   props.showTooltip({
                     tooltipLeft: xScale(x(point)),
@@ -69,7 +69,7 @@ export default withTooltip(props => {
                     tooltipData: point
                   });
                 }}
-                onMouseLeave={() => event => {
+                onMouseLeave={event => {
                   tooltipTimeout = setTimeout(() => {
                     props.hideTooltip();
                   }, 300);
