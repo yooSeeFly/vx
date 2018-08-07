@@ -2,7 +2,6 @@ import { Group } from '@vx/group';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Bar from './Bar';
 
 export default function BarGroup({
   data,
@@ -16,7 +15,7 @@ export default function BarGroup({
   zScale,
   keys,
   height,
-  ...restProps
+  children
 }) {
   const format = x0Scale.tickFormat ? x0Scale.tickFormat() : d => d;
   return (
@@ -26,25 +25,22 @@ export default function BarGroup({
           return (
             <Group key={`bar-group-${i}-${x0(d)}`} left={x0Scale(x0(d))}>
               {keys &&
-                keys.map((key, i) => {
+                keys.map((key, ii) => {
                   const value = d[key];
-                  return (
-                    <Bar
-                      key={`bar-group-bar-${i}-${value}-${key}`}
-                      x={x1Scale(key)}
-                      y={yScale(value)}
-                      width={x1Scale.bandwidth()}
-                      height={height - yScale(value)}
-                      fill={zScale(key)}
-                      data={{
-                        key,
-                        value,
-                        x: format(x0(d)),
-                        data: d
-                      }}
-                      {...restProps}
-                    />
-                  );
+                  return children({
+                    key,
+                    value,
+                    format,
+                    index: i,
+                    keyIndex: ii,
+                    barGroupData: d,
+                    x: x1Scale(key),
+                    y: yScale(value),
+                    x0: x0Scale(x0(d)),
+                    barWidth: x1Scale.bandwidth(),
+                    barHeight: height - yScale(value),
+                    barColor: zScale(key)
+                  });
                 })}
             </Group>
           );
@@ -54,6 +50,7 @@ export default function BarGroup({
 }
 
 BarGroup.propTypes = {
+  children: PropTypes.func.isRequired,
   data: PropTypes.array.isRequired,
   x0: PropTypes.func.isRequired,
   x0Scale: PropTypes.func.isRequired,
