@@ -10,14 +10,14 @@ export default () => {
       component={BarGroupHorizontal}
       title="Bar Group Horizontal"
     >
-      {`import React from 'react';
-import { BarGroupHorizontal } from '@vx/shape';
+      {`import { AxisLeft } from '@vx/axis';
 import { Group } from '@vx/group';
-import { AxisLeft } from '@vx/axis';
 import { cityTemperature } from '@vx/mock-data';
 import { scaleBand, scaleLinear, scaleOrdinal } from '@vx/scale';
-import { timeParse, timeFormat } from 'd3-time-format';
-import { extent, max } from 'd3-array';
+import { BarGroupHorizontal } from '@vx/shape';
+import { max } from 'd3-array';
+import { timeFormat, timeParse } from 'd3-time-format';
+import React from 'react';
 
 const data = cityTemperature.slice(0, 4);
 const keys = Object.keys(data[0]).filter(d => d !== 'date');
@@ -32,19 +32,16 @@ const x = d => d.value;
 export default ({
   width,
   height,
-  events = false,
   margin = {
     top: 20,
     left: 50,
     right: 10,
     bottom: 0
-  },
+  }
 }) => {
-  if (width < 10) return null;
-
   // bounds
   const xMax = width - margin.left - margin.right;
-  const yMax = height - 100
+  const yMax = height - 100;
 
   // // scales
   const y0Scale = scaleBand({
@@ -77,7 +74,7 @@ export default ({
 
   return (
     <svg width={width} height={height}>
-      <rect x={0} y={0} width={width} height={height} fill='#612efb' rx={14} />
+      <rect x={0} y={0} width={width} height={height} fill="#612efb" rx={14} />
       <Group top={margin.top} left={margin.left}>
         <BarGroupHorizontal
           data={data}
@@ -88,12 +85,24 @@ export default ({
           y1Scale={y1Scale}
           xScale={xScale}
           zScale={zScale}
-          rx={4}
-          onClick={data => event => {
-            if (!events) return;
-            alert(\`clicked: \${JSON.stringify(data)}\`);
+        >
+          {bar => {
+            return (
+              <rect
+                key={\`bar-group-bar-\${bar.index}-\${bar.keyIndex}\`}
+                rx={4}
+                x={bar.x}
+                y={bar.y}
+                width={bar.barWidth}
+                height={bar.barHeight}
+                fill={bar.barColor}
+                onClick={event => {
+                  alert(\`clicked \${JSON.stringify({ date: bar.format(bar.y0), ...bar })}\`);
+                }}
+              />
+            );
           }}
-        />
+        </BarGroupHorizontal>
         <AxisLeft
           scale={y0Scale}
           stroke="#e5fd3d"
@@ -109,8 +118,7 @@ export default ({
       </Group>
     </svg>
   );
-};
-`}
+};`}
     </Show>
   );
 };
