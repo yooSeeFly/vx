@@ -1,13 +1,16 @@
-import React from 'react';
-import { Pie } from '@vx/shape';
-import { Group } from '@vx/group';
 import { GradientPinkBlue } from '@vx/gradient';
-import { letterFrequency, browserUsage } from '@vx/mock-data';
+import { Group } from '@vx/group';
+import { browserUsage, letterFrequency } from '@vx/mock-data';
+import { Pie } from '@vx/shape';
+import React from 'react';
 
 const letters = letterFrequency.slice(0, 4);
 const browsers = Object.keys(browserUsage[0])
   .filter(k => k !== 'date')
   .map(k => ({ label: k, usage: browserUsage[0][k] }));
+
+const usage = d => d.usage;
+const frequency = d => d.frequency;
 
 function Label({ x, y, children }) {
   return (
@@ -37,30 +40,38 @@ export default ({
       <Group top={height / 2 - margin.top} left={width / 2}>
         <Pie
           data={browsers}
-          pieValue={d => d.usage}
+          pieValue={usage}
           outerRadius={radius - 80}
           innerRadius={radius - 120}
-          fill="white"
-          fillOpacity={d => 1 / (d.index + 2)}
           cornerRadius={3}
           padAngle={0}
-          centroid={(centroid, arc) => {
-            const [x, y] = centroid;
-            const { startAngle, endAngle } = arc;
-            if (endAngle - startAngle < 0.1) return null;
-            return (
-              <Label x={x} y={y}>
-                {arc.data.label}
-              </Label>
-            );
+        >
+          {pie => {
+            return pie.arcs.map((arc, i) => {
+              const [x, y] = pie.path.centroid(arc);
+              const { startAngle, endAngle } = arc;
+              return (
+                <g key={`pie1-arc-${i}`}>
+                  <path d={pie.path(arc)} fill={'#FFFFFF'} fillOpacity={1 / (i + 2)} />
+                  {endAngle - startAngle >= 0.1 && (
+                    <Label x={x} y={y}>
+                      {arc.data.label}
+                    </Label>
+                  )}
+                </g>
+              );
+            });
           }}
-        />
+        </Pie>
         <Pie
           data={letters}
-          pieValue={d => d.frequency}
+          pieValue={frequency}
           outerRadius={radius - 135}
           fill="black"
-          fillOpacity={d => 1 / (d.index + 2)}
+          fillOpacity={0.4}
+          stroke={'white'}
+          strokeWidth={2}
+          strokeOpacity={0.1}
           centroid={(centroid, arc) => {
             const [x, y] = centroid;
             return (
