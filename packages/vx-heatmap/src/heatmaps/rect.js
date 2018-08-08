@@ -2,7 +2,6 @@ import { Group } from '@vx/group';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import additionalProps from '../util/additionalProps';
 
 HeatmapRect.propTypes = {
   data: PropTypes.array,
@@ -15,7 +14,8 @@ HeatmapRect.propTypes = {
   colorScale: PropTypes.func,
   opacityScale: PropTypes.func,
   bins: PropTypes.func,
-  count: PropTypes.func
+  count: PropTypes.func,
+  children: PropTypes.func
 };
 
 export default function HeatmapRect({
@@ -31,6 +31,7 @@ export default function HeatmapRect({
   opacityScale = d => 1,
   bins = d => d.bins,
   count = d => d.count,
+  children,
   ...restProps
 }) {
   const width = binWidth - gap;

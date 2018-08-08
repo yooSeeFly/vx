@@ -2,7 +2,6 @@ import { Group } from '@vx/group';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import additionalProps from '../util/additionalProps';
 
 HeatmapCircle.propTypes = {
   data: PropTypes.array,
@@ -13,7 +12,8 @@ HeatmapCircle.propTypes = {
   colorScale: PropTypes.func,
   opacityScale: PropTypes.func,
   bins: PropTypes.func,
-  count: PropTypes.func
+  count: PropTypes.func,
+  children: PropTypes.func
 };
 
 export default function HeatmapCircle({
@@ -27,6 +27,7 @@ export default function HeatmapCircle({
   opacityScale = d => 1,
   bins = d => d.bins,
   count = d => d.count,
+  children,
   ...restProps
 }) {
   const r = radius - gap;

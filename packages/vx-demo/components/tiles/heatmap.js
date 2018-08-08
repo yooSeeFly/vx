@@ -1,9 +1,9 @@
-import React from 'react';
 import { Group } from '@vx/group';
-import { genBins } from '@vx/mock-data';
-import { scaleBand, scaleLinear } from '@vx/scale';
 import { HeatmapCircle, HeatmapRect } from '@vx/heatmap';
-import { extent, min, max } from 'd3-array';
+import { genBins } from '@vx/mock-data';
+import { scaleLinear } from '@vx/scale';
+import { max, min } from 'd3-array';
+import React from 'react';
 
 const data = genBins(16, 16);
 

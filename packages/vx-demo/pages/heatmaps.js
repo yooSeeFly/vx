@@ -15,12 +15,12 @@ export default () => {
       component={Heatmap}
       title="Heatmaps"
     >
-      {`import React from 'react';
-import { Group } from '@vx/group';
-import { genBins } from '@vx/mock-data';
-import { scaleBand, scaleLinear } from '@vx/scale';
+      {`import { Group } from '@vx/group';
 import { HeatmapCircle, HeatmapRect } from '@vx/heatmap';
-import { extent, min, max } from 'd3-array';
+import { genBins } from '@vx/mock-data';
+import { scaleLinear } from '@vx/scale';
+import { extent, max, min } from 'd3-array';
+import React from 'react';
 
 const data = genBins(16, 16);
 
@@ -32,21 +32,16 @@ const z = d => d.count;
 export default ({
   width,
   height,
-  events = false,
   margin = {
     top: 10,
     left: 20,
     right: 20,
-    bottom: 110,
+    bottom: 110
   }
 }) => {
-  if (width < 10) return null;
-
   // bounds
-  const size =  width > (margin.left + margin.right)
-    ? width - margin.left - margin.right
-    : width;
-  const xMax =  size / 2;
+  const size = width > margin.left + margin.right ? width - margin.left - margin.right : width;
+  const xMax = size / 2;
   const yMax = height - margin.bottom;
   const dMin = min(data, d => min(y(d), x));
   const dMax = max(data, d => max(y(d), x));
@@ -73,20 +68,13 @@ export default ({
     domain: [0, colorMax]
   });
   const opacityScale = scaleLinear({
-    range: [.1, 1],
+    range: [0.1, 1],
     domain: [0, colorMax]
   });
 
   return (
     <svg width={width} height={height}>
-      <rect
-        x={0}
-        y={0}
-        width={width}
-        height={height}
-        rx={14}
-        fill="#28272c"
-      />
+      <rect x={0} y={0} width={width} height={height} rx={14} fill="#28272c" />
       <Group top={margin.top} left={5}>
         <HeatmapCircle
           data={data}
@@ -97,11 +85,24 @@ export default ({
           radius={(bWidth + 4) / 2}
           step={dStep}
           gap={4}
-          onClick={data => event => {
-            if (!events) return;
-            alert(\`clicked: \${JSON.stringify(data.bin)}\`)
+        >
+          {bin => {
+            return (
+              <circle
+                className={'vx-heatmap-circle'}
+                key={\`heatmap-circle-\${bin.index}-\${bin.binIndex}\`}
+                r={bin.r}
+                cx={bin.cx}
+                cy={bin.cy}
+                fill={bin.color}
+                fillOpacity={bin.opacity}
+                onClick={event => {
+                  alert(\`clicked: \${JSON.stringify(bin, null, 4)}\`);
+                }}
+              />
+            );
           }}
-        />
+        </HeatmapCircle>
       </Group>
       <Group top={margin.top} left={xMax + margin.left}>
         <HeatmapRect
@@ -114,15 +115,29 @@ export default ({
           binHeight={bWidth}
           step={dStep}
           gap={0}
-          onClick={data => event => {
-            if (!events) return;
-            alert(\`clicked: \${JSON.stringify(data.bin)}\`)
+        >
+          {bin => {
+            return (
+              <rect
+                className={'vx-heatmap-rect'}
+                key={\`heatmap-rect-\${bin.index}-\${bin.binIndex}\`}
+                width={bin.width}
+                height={bin.height}
+                x={bin.x}
+                y={bin.y}
+                fill={bin.color}
+                fillOpacity={bin.opacity}
+                onClick={event => {
+                  alert(\`clicked: \${JSON.stringify(bin, null, 4)}\`);
+                }}
+              />
+            );
           }}
-        />
+        </HeatmapRect>
       </Group>
     </svg>
   );
-}`}
+};`}
     </Show>
   );
 };
