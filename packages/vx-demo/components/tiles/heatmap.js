@@ -1,9 +1,9 @@
-import React from 'react';
 import { Group } from '@vx/group';
-import { genBins } from '@vx/mock-data';
-import { scaleBand, scaleLinear } from '@vx/scale';
 import { HeatmapCircle, HeatmapRect } from '@vx/heatmap';
-import { extent, min, max } from 'd3-array';
+import { genBins } from '@vx/mock-data';
+import { scaleLinear } from '@vx/scale';
+import { extent, max, min } from 'd3-array';
+import React from 'react';
 
 const data = genBins(16, 16);
 
@@ -71,11 +71,25 @@ export default ({
           radius={(bWidth + 4) / 2}
           step={dStep}
           gap={4}
-          onClick={data => event => {
-            if (!events) return;
-            alert(`clicked: ${JSON.stringify(data.bin)}`);
+        >
+          {bin => {
+            return (
+              <circle
+                className={`vx-heatmap-circle`}
+                key={`heatmap-circle-${bin.index}-${bin.binIndex}`}
+                r={bin.r}
+                cx={bin.cx}
+                cy={bin.cy}
+                fill={bin.color}
+                fillOpacity={bin.opacity}
+                onClick={event => {
+                  if (!events) return;
+                  alert(`clicked: ${JSON.stringify(bin, null, 4)}`);
+                }}
+              />
+            );
           }}
-        />
+        </HeatmapCircle>
       </Group>
       <Group top={margin.top} left={xMax + margin.left}>
         <HeatmapRect
@@ -88,11 +102,26 @@ export default ({
           binHeight={bWidth}
           step={dStep}
           gap={0}
-          onClick={data => event => {
-            if (!events) return;
-            alert(`clicked: ${JSON.stringify(data.bin)}`);
+        >
+          {bin => {
+            return (
+              <rect
+                className={'vx-heatmap-rect'}
+                key={`heatmap-rect-${bin.index}-${bin.binIndex}`}
+                width={bin.width}
+                height={bin.height}
+                x={bin.x}
+                y={bin.y}
+                fill={bin.color}
+                fillOpacity={bin.opacity}
+                onClick={event => {
+                  if (!events) return;
+                  alert(`clicked: ${JSON.stringify(bin, null, 4)}`);
+                }}
+              />
+            );
           }}
-        />
+        </HeatmapRect>
       </Group>
     </svg>
   );

@@ -2,7 +2,6 @@ import { Group } from '@vx/group';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import additionalProps from '../util/additionalProps';
 
 HeatmapCircle.propTypes = {
   data: PropTypes.array,
@@ -16,7 +15,8 @@ HeatmapCircle.propTypes = {
   yBin: PropTypes.func,
   bin: PropTypes.func,
   bins: PropTypes.func,
-  count: PropTypes.func
+  count: PropTypes.func,
+  children: PropTypes.func
 };
 
 export default function HeatmapCircle({
@@ -33,6 +33,7 @@ export default function HeatmapCircle({
   bin = (d, i) => d.bin,
   bins = (d, i) => d.bins,
   count = d => d.count,
+  children,
   ...restProps
 }) {
   yBin = yBin || bin;
@@ -43,22 +44,30 @@ export default function HeatmapCircle({
         return (
           <Group key={`heatmap-${i}`} className="vx-heatmap-column" left={xScale(bin(d, i))}>
             {bins(d, i).map((b, j) => {
+              const binCount = count(b);
+              const _bin = {
+                index: j,
+                binIndex: i,
+                count: binCount,
+                color: colorScale(binCount),
+                opacity: opacityScale(binCount),
+                r: radius - gap,
+                cx: radius,
+                cy: yScale(yBin(b, j) + step) + radius,
+                xbin: bin(d, i),
+                ybin: yBin(b, j)
+              };
+              if (children) return children(_bin);
               return (
                 <circle
                   key={`heatmap-tile-circle-${j}`}
                   className={cx('vx-heatmap-circle', className)}
-                  fill={colorScale(count(b))}
-                  r={r}
-                  cx={radius}
-                  cy={yScale(yBin(b, j) + step) + radius}
-                  fillOpacity={opacityScale(count(b))}
-                  {...additionalProps(restProps, {
-                    bin: b,
-                    index: j,
-                    datum: d,
-                    datumIndex: i,
-                    data
-                  })}
+                  fill={_bin.color}
+                  r={_bin.r}
+                  cx={_bin.cx}
+                  cy={_bin.cy}
+                  fillOpacity={_bin.opacity}
+                  {...restProps}
                 />
               );
             })}
