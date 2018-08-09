@@ -1,6 +1,9 @@
 export { default as Legend } from './legends/Legend';
-export { default as LegendQuantile } from './legends/Quantile';
+export { default as LegendItem } from './legends/LegendItem';
+export { default as LegendLabel } from './legends/LegendLabel';
+export { default as LegendShape } from './legends/LegendShape';
 export { default as LegendLinear } from './legends/Linear';
 export { default as LegendOrdinal } from './legends/Ordinal';
-export { default as LegendThreshold } from './legends/Threshold';
+export { default as LegendQuantile } from './legends/Quantile';
 export { default as LegendSize } from './legends/Size';
+export { default as LegendThreshold } from './legends/Threshold';

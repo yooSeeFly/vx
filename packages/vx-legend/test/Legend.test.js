@@ -1,7 +1,7 @@
+import { mount, shallow } from 'enzyme';
 import React from 'react';
-import { shallow, mount } from 'enzyme';
-import { Legend } from '../src';
 import { scaleLinear } from '../../vx-scale';
+import { Legend } from '../src';
 
 const defaultProps = {
   scale: scaleLinear({
@@ -40,23 +40,15 @@ describe('<Legend />', () => {
   });
 
   test('it should pass onClick prop to <LegendItem />', () => {
-    const event = jest.fn(event => jest.fn());
-    const onClick = jest.fn(data => event);
+    const onClick = jest.fn(event => jest.fn());
     const wrapper = mount(<Legend {...defaultProps} onClick={onClick} />);
     wrapper
       .find('LegendItem')
       .last()
       .simulate('click');
-    // called twice, once to bind data, once when click event
-    expect(onClick.mock.calls.length).toEqual(2);
-    expect(event.mock.calls.length).toEqual(1);
+    // called once
+    expect(onClick.mock.calls.length).toEqual(1);
     // called with click event
-    expect(event.mock.calls[0][0].type).toEqual('click');
-    expect(onClick.mock.calls[1][0]).toEqual({
-      datum: 10,
-      index: 1,
-      text: '10',
-      value: 0
-    });
+    expect(onClick.mock.calls[0][0].type).toEqual('click');
   });
 });
