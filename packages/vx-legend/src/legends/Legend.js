@@ -1,10 +1,10 @@
-import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
+import React from 'react';
+import valueOrIdentity from '../util/valueOrIdentity';
 import LegendItem from './LegendItem';
 import LegendLabel from './LegendLabel';
 import LegendShape from './LegendShape';
-import valueOrIdentity from '../util/valueOrIdentity';
 
 Legend.propTypes = {
   className: PropTypes.string,
@@ -20,7 +20,8 @@ Legend.propTypes = {
   fill: PropTypes.func,
   shape: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
   labelFormat: PropTypes.func,
-  labelTransform: PropTypes.func
+  labelTransform: PropTypes.func,
+  children: PropTypes.func
 };
 
 const defaultStyle = {
@@ -46,6 +47,7 @@ export default function Legend({
   itemMargin = '0',
   direction = 'column',
   itemDirection = 'row',
+  children,
   ...restProps
 }) {
   domain = domain || scale.domain();
@@ -60,25 +62,52 @@ export default function Legend({
     >
       {labels.map((label, i) => {
         const { text } = label;
+        const legendItem = {
+          label,
+          index: i,
+          margin: itemMargin,
+          direction: itemDirection
+        };
+        const legendShape = {
+          shape,
+          label,
+          fill,
+          size,
+          height: shapeHeight,
+          width: shapeWidth,
+          margin: shapeMargin,
+          style: shapeStyle
+        };
+        const legendLabel = {
+          text,
+          label,
+          margin: labelMargin,
+          align: labelAlign
+        };
+        if (children) return children({ legendItem, legendShape, legendLabel });
         return (
           <LegendItem
-            key={`legend-${label}-${i}`}
-            margin={itemMargin}
-            flexDirection={itemDirection}
-            label={label}
+            key={`legend-${legendItem.label.text}-${legendItem.index}`}
+            margin={legendItem.margin}
+            flexDirection={legendItem.direction}
+            label={legendItem.label}
             {...restProps}
           >
             <LegendShape
-              shape={shape}
-              height={shapeHeight}
-              width={shapeWidth}
-              margin={shapeMargin}
-              label={label}
-              fill={fill}
-              size={size}
-              shapeStyle={shapeStyle}
+              shape={legendShape.shape}
+              height={legendShape.height}
+              width={legendShape.width}
+              margin={legendShape.margin}
+              label={legendShape.label}
+              fill={legendShape.fill}
+              size={legendShape.size}
+              shapeStyle={legendShape.style}
             />
-            <LegendLabel label={text} margin={labelMargin} align={labelAlign} />
+            <LegendLabel
+              label={legendLabel.text}
+              margin={legendLabel.margin}
+              align={legendLabel.align}
+            />
           </LegendItem>
         );
       })}

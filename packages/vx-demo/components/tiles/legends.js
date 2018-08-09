@@ -1,16 +1,18 @@
-import React from 'react';
-import { format } from 'd3-format';
+import { GlyphDiamond, GlyphStar, GlyphTriangle, GlyphWye } from '@vx/glyph';
 import {
   Legend,
+  LegendItem,
+  LegendLabel,
   LegendLinear,
-  LegendQuantile,
   LegendOrdinal,
+  LegendQuantile,
+  LegendShape,
   LegendSize,
   LegendThreshold
 } from '@vx/legend';
-import { scaleQuantize, scaleLinear, scaleOrdinal, scaleThreshold } from '@vx/scale';
-
-import { GlyphStar, GlyphWye, GlyphTriangle, GlyphDiamond } from '@vx/glyph';
+import { scaleLinear, scaleOrdinal, scaleQuantize, scaleThreshold } from '@vx/scale';
+import { format } from 'd3-format';
+import React from 'react';
 
 const oneDecimalFormat = format('.1f');
 const twoDecimalFormat = format('.2f');
@@ -107,12 +109,6 @@ export default ({ width, height, margin }) => {
           shapeMargin="5px 0"
           itemDirection="row"
           scale={size}
-          onClick={data => event => {
-            alert(`clicked: ${JSON.stringify(data)}`);
-          }}
-          onMouseOver={data => event => {
-            console.log(`mouse over: ${data.text}`, `index: ${data.index}`);
-          }}
           shapeStyle={props => {
             return {
               fill: sizeColor(props.datum)
@@ -129,16 +125,7 @@ export default ({ width, height, margin }) => {
         />
       </LegendDemo>
       <LegendDemo title="Quantile">
-        <LegendQuantile
-          shape="circle"
-          scale={quantile}
-          onClick={data => event => {
-            alert(`clicked: ${JSON.stringify(data)}`);
-          }}
-          onMouseOver={data => event => {
-            console.log(`mouse over: ${data.text}`, `index: ${data.index}`);
-          }}
-        />
+        <LegendQuantile shape="circle" scale={quantile} />
       </LegendDemo>
       <LegendDemo title="Linear">
         <LegendLinear
@@ -147,12 +134,6 @@ export default ({ width, height, margin }) => {
           labelFormat={(d, i) => {
             if (i % 2 === 0) return oneDecimalFormat(d);
             return '';
-          }}
-          onClick={data => event => {
-            alert(`clicked: ${JSON.stringify(data)}`);
-          }}
-          onMouseOver={data => event => {
-            console.log(`mouse over: ${data.text}`, `index: ${data.index}`);
           }}
         />
       </LegendDemo>
@@ -163,12 +144,6 @@ export default ({ width, height, margin }) => {
           labelMargin="2px 0 0 10px"
           shapeMargin="1px 0 0"
           scale={threshold}
-          onClick={data => event => {
-            alert(`clicked: ${JSON.stringify(data)}`);
-          }}
-          onMouseOver={data => event => {
-            console.log(`mouse over: ${data.text}`, `index: ${data.index}`);
-          }}
         />
       </LegendDemo>
       <LegendDemo title="Ordinal">
@@ -182,12 +157,6 @@ export default ({ width, height, margin }) => {
           shape="rect"
           fill={({ datum }) => ordinalColor(datum)}
           labelFormat={label => `${label.toUpperCase()}`}
-          onClick={data => event => {
-            alert(`clicked: ${JSON.stringify(data)}`);
-          }}
-          onMouseOver={data => event => {
-            console.log(`mouse over: ${data.text}`, `index: ${data.index}`);
-          }}
         />
       </LegendDemo>
       <LegendDemo title="Custom Legend">
@@ -200,12 +169,6 @@ export default ({ width, height, margin }) => {
           scale={ordinalShape}
           fill={({ datum }) => ordinalColor2(datum)}
           shapeWidth={15}
-          onClick={data => event => {
-            alert(`clicked: ${JSON.stringify(data)}`);
-          }}
-          onMouseOver={data => event => {
-            console.log(`mouse over: ${data.text}`, `index: ${data.index}`);
-          }}
           shape={props => {
             return (
               <svg width={props.width} height={props.height}>
@@ -218,7 +181,46 @@ export default ({ width, height, margin }) => {
               </svg>
             );
           }}
-        />
+        >
+          {({ legendItem, legendShape, legendLabel }) => {
+            return (
+              <LegendItem
+                key={`legend-${legendItem.label.text}-${legendItem.index}`}
+                margin={legendItem.margin}
+                flexDirection={legendItem.direction}
+                label={legendItem.label}
+                onClick={event => {
+                  alert(
+                    `clicked: ${JSON.stringify(
+                      { text: legendLabel.text, index: legendItem.index },
+                      null,
+                      4
+                    )}`
+                  );
+                }}
+                onMouseOver={event => {
+                  console.log(`mouseover: ${JSON.stringify(legendLabel.text, null, 4)}`);
+                }}
+              >
+                <LegendShape
+                  shape={legendShape.shape}
+                  height={legendShape.height}
+                  width={legendShape.width}
+                  margin={legendShape.margin}
+                  label={legendShape.label}
+                  fill={legendShape.fill}
+                  size={legendShape.size}
+                  shapeStyle={legendShape.style}
+                />
+                <LegendLabel
+                  label={legendLabel.text}
+                  margin={legendLabel.margin}
+                  align={legendLabel.align}
+                />
+              </LegendItem>
+            );
+          }}
+        </Legend>
       </LegendDemo>
 
       <style jsx>{`
