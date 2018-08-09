@@ -1,9 +1,8 @@
-import React from 'react';
-import { Group } from '@vx/group';
-import { GradientOrangeRed, GradientPinkRed } from '@vx/gradient';
 import { RectClipPath } from '@vx/clip-path';
-
+import { GradientOrangeRed, GradientPinkRed } from '@vx/gradient';
+import { Group } from '@vx/group';
 import { voronoi, VoronoiPolygon } from '@vx/voronoi';
+import React from 'react';
 
 export default ({
   width,
@@ -48,11 +47,13 @@ export default ({
           <VoronoiPolygon
             key={`polygon-${polygon.data.id}`}
             polygon={polygon}
-            fill={d =>
-              d.id.toLowerCase() <= 'a' ? 'url(#voronoi_orange_red)' : 'url(#voronoi_pink_red)'
-            }
             stroke="#fff"
             strokeWidth={1}
+            fill={
+              polygon && polygon.data.id.toLowerCase() <= 'a'
+                ? 'url(#voronoi_orange_red)'
+                : 'url(#voronoi_pink_red)'
+            }
           />
         ))}
         {data.map(d => (

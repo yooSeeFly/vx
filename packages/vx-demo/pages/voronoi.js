@@ -1,6 +1,6 @@
 import React from 'react';
-import Show from '../components/show';
 import VoronoiChart from '../components/charts/VoronoiChart';
+import Show from '../components/show';
 
 export default () => {
   return (
@@ -15,23 +15,26 @@ export default () => {
       component={VoronoiChart}
       title="VoronoiChart with mouseover"
     >
-      {`import React from 'react';
-import { extent } from 'd3-array';
-import { Group } from '@vx/group';
+      {`import { RectClipPath } from '@vx/clip-path';
+import { localPoint } from '@vx/event';
 import { GradientOrangeRed, GradientPinkRed } from '@vx/gradient';
-import { RectClipPath } from '@vx/clip-path';
+import { Group } from '@vx/group';
 import { scaleLinear } from '@vx/scale';
-import { getCoordsFromEvent } from '@vx/brush';
-
 import { voronoi, VoronoiPolygon } from '@vx/voronoi';
+import { extent } from 'd3-array';
+import React from 'react';
 
-const neighborRadius = 50;
+const neighborRadius = 75;
 
-const data = Array(150).fill(null).map(() => ({
-  x: Math.random(),
-  y: Math.random(),
-  id: Math.random().toString(36).slice(2),
-}));
+const data = Array(200)
+  .fill(null)
+  .map(() => ({
+    x: Math.random(),
+    y: Math.random(),
+    id: Math.random()
+      .toString(36)
+      .slice(2)
+  }));
 
 class VoronoiChart extends React.PureComponent {
   static getUpdatedState(props) {
@@ -41,19 +44,19 @@ class VoronoiChart extends React.PureComponent {
 
     const xScale = scaleLinear({
       domain: extent(data, d => d.x),
-      range: [0, innerWidth],
+      range: [0, innerWidth]
     });
 
     const yScale = scaleLinear({
       domain: extent(data, d => d.y),
-      range: [innerHeight, 0],
+      range: [innerHeight, 0]
     });
 
     const voronoiDiagram = voronoi({
       x: d => xScale(d.x),
       y: d => yScale(d.y),
       width: innerWidth,
-      height: innerHeight,
+      height: innerHeight
     })(data);
 
     return {
@@ -63,7 +66,7 @@ class VoronoiChart extends React.PureComponent {
       yScale,
       voronoiDiagram,
       innerWidth,
-      innerHeight,
+      innerHeight
     };
   }
 
@@ -74,27 +77,24 @@ class VoronoiChart extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.width !== this.props.width ||
-      nextProps.height !== this.props.height
-    ) {
+    if (nextProps.width !== this.props.width || nextProps.height !== this.props.height) {
       this.setState(VoronoiChart.getUpdatedState(nextProps));
     }
   }
 
   handleMouseMove(event) {
     const { voronoiDiagram } = this.state;
-    const { x, y } = getCoordsFromEvent(this.svg, event);
+    const { x, y } = localPoint(this.svg, event);
     const closest = voronoiDiagram.find(x, y, neighborRadius);
     if (closest) {
       const neighbors = {};
       const cell = voronoiDiagram.cells[closest.index];
-      cell.halfedges.forEach((index) => {
+      cell.halfedges.forEach(index => {
         const edge = voronoiDiagram.edges[index];
         const { left, right } = edge;
-        if (left !== closest) neighbors[left.data.id] = true;
-        else if (right !== closest) neighbors[right.id] = true;
-      })
+        if (left && left !== closest) neighbors[left.data.id] = true;
+        else if (right && right !== closest) neighbors[right.data.id] = true;
+      });
       this.setState({ selected: closest, neighbors });
     }
   }
@@ -109,7 +109,7 @@ class VoronoiChart extends React.PureComponent {
       xScale,
       yScale,
       selected,
-      neighbors,
+      neighbors
     } = this.state;
 
     const polygons = voronoiDiagram.polygons();
@@ -118,41 +118,39 @@ class VoronoiChart extends React.PureComponent {
       <svg
         width={width}
         height={height}
-        ref={(ref) => { this.svg = ref; }}
+        ref={ref => {
+          this.svg = ref;
+        }}
       >
         <GradientOrangeRed id="voronoi_orange_red" />
         <GradientPinkRed id="voronoi_pink_red" />
-        <RectClipPath
-          id="voronoi_clip"
-          width={innerWidth}
-          height={innerHeight}
-          rx={14}
-        />
+        <RectClipPath id="voronoi_clip" width={innerWidth} height={innerHeight} rx={14} />
         <Group
           top={margin.top}
           left={margin.left}
           clipPath="url(#voronoi_clip)"
           onMouseMove={this.handleMouseMove}
-          onMouseLeave={() => { this.setState({ selected: null, neighbors: null }); }}
+          onMouseLeave={() => {
+            this.setState({ selected: null, neighbors: null });
+          }}
         >
-          {polygons.map((polygon) => (
+          {polygons.map(polygon => (
             <VoronoiPolygon
-              key={...}
+              key={\`polygon-\${polygon.data.id}\`}
               polygon={polygon}
-              fill={(d) => (
-                selected && (d.id === selected.data.id || neighbors[d.id]) ?
-                'url(#voronoi_orange_red)' : 'url(#voronoi_pink_red)'
-              )}
-              fillOpacity={(d) => (
-                neighbors && neighbors[d.id] ? 0.4 : 1
-              )}
               stroke="#fff"
               strokeWidth={1}
+              fill={
+                selected && (polygon.data.id === selected.data.id || neighbors[polygon.data.id])
+                  ? 'url(#voronoi_orange_red)'
+                  : 'url(#voronoi_pink_red)'
+              }
+              fillOpacity={neighbors && neighbors[polygon.data.id] ? 0.4 : 1}
             />
           ))}
-          {data.map((d) => (
+          {data.map(d => (
             <circle
-              key={...}
+              key={\`circle-\${d.id}\`}
               r={2}
               cx={xScale(d.x)}
               cy={yScale(d.y)}
@@ -164,8 +162,7 @@ class VoronoiChart extends React.PureComponent {
       </svg>
     );
   }
-}
-`}
+}`}
     </Show>
   );
 };
