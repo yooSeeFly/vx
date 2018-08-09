@@ -1,12 +1,11 @@
-import React from 'react';
-import { extent } from 'd3-array';
-import { Group } from '@vx/group';
-import { GradientOrangeRed, GradientPinkRed } from '@vx/gradient';
 import { RectClipPath } from '@vx/clip-path';
+import { localPoint } from '@vx/event';
+import { GradientOrangeRed, GradientPinkRed } from '@vx/gradient';
+import { Group } from '@vx/group';
 import { scaleLinear } from '@vx/scale';
-import { getCoordsFromEvent } from '@vx/brush';
-
 import { voronoi, VoronoiPolygon } from '@vx/voronoi';
+import { extent } from 'd3-array';
+import React from 'react';
 
 const neighborRadius = 75;
 
@@ -68,13 +67,12 @@ class VoronoiChart extends React.PureComponent {
 
   handleMouseMove(event) {
     const { voronoiDiagram } = this.state;
-    const { x, y } = getCoordsFromEvent(this.svg, event);
+    const { x, y } = localPoint(this.svg, event);
     const closest = voronoiDiagram.find(x, y, neighborRadius);
     if (closest) {
       const neighbors = {};
       const cell = voronoiDiagram.cells[closest.index];
       cell.halfedges.forEach(index => {
-        debugger;
         const edge = voronoiDiagram.edges[index];
         const { left, right } = edge;
         if (left && left !== closest) neighbors[left.data.id] = true;
@@ -123,12 +121,12 @@ class VoronoiChart extends React.PureComponent {
             <VoronoiPolygon
               key={`polygon-${polygon.data.id}`}
               polygon={polygon}
-              fill={d =>
-                selected && (d.id === selected.data.id || neighbors[d.id])
+              fill={
+                selected && (polygon.data.id === selected.data.id || neighbors[polygon.data.id])
                   ? 'url(#voronoi_orange_red)'
                   : 'url(#voronoi_pink_red)'
               }
-              fillOpacity={d => (neighbors && neighbors[d.id] ? 0.4 : 1)}
+              fillOpacity={neighbors && neighbors[polygon.data.id] ? 0.4 : 1}
               stroke="#fff"
               strokeWidth={1}
             />
