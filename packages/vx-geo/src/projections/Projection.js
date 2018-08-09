@@ -1,10 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cx from 'classnames';
 import { Group } from '@vx/group';
-import additionalProps from '../util/additionalProps';
+import cx from 'classnames';
+import { geoAlbers, geoMercator, geoNaturalEarth1, geoOrthographic, geoPath } from 'd3-geo';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Graticule from '../graticule/Graticule';
-import { geoOrthographic, geoAlbers, geoMercator, geoNaturalEarth1, geoPath } from 'd3-geo';
 
 // TODO: Implement all projections of d3-geo
 const projectionMapping = {
@@ -37,6 +36,7 @@ export default function Projection({
   className,
   innerRef,
   pointRadius,
+  children,
   ...restProps
 }) {
   const currProjection = projectionMapping[projection]();
@@ -66,23 +66,28 @@ export default function Projection({
       {data.map((feature, i) => {
         let c;
         if (centroid) c = path.centroid(feature);
+        const mapFeature = {
+          path,
+          feature,
+          projection: currProjection,
+          index: i,
+          centroid: path.centroid(feature),
+          d: path(feature)
+        };
+        if (children) return children(mapFeature);
         return (
           <g key={`${projection}-${i}`}>
             <path
               className={cx(`vx-geo-${projection}`, className)}
-              d={path(feature)}
-              ref={innerRef && innerRef(feature, i)}
-              {...additionalProps(restProps, {
-                ...feature,
-                index: i,
-                centroid: c
-              })}
+              d={mapFeature.d}
+              ref={innerRef && innerRef(mapFeature.feature, i)}
+              {...restProps}
             />
-            {centroid && centroid(c, feature)}
+            {centroid && centroid(c, mapFeature.feature)}
           </g>
         );
       })}
-      {/* TODO: Maybe find a different way to pass projection function to use for example invert */}
+
       {projectionFunc && projectionFunc(currProjection)}
 
       {graticule && graticule.foreground && <Graticule graticule={g => path(g)} {...graticule} />}
@@ -108,5 +113,6 @@ Projection.propTypes = {
   fitExtent: PropTypes.array,
   fitSize: PropTypes.array,
   centroid: PropTypes.func,
-  className: PropTypes.string
+  className: PropTypes.string,
+  children: PropTypes.func
 };

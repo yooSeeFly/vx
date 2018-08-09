@@ -1,7 +1,7 @@
-import React from 'react';
-import { scaleQuantize } from '@vx/scale';
-import { GradientTealBlue, LinearGradient } from '@vx/gradient';
 import { Mercator } from '@vx/geo';
+import { LinearGradient } from '@vx/gradient';
+import { scaleQuantize } from '@vx/scale';
+import React from 'react';
 import * as topojson from 'topojson-client';
 import topology from '../../static/vx-geo/world-topo.json';
 
@@ -24,19 +24,28 @@ export default ({ width, height, events = false }) => {
       <rect x={0} y={0} width={width} height={height} fill={`#f9f7e8`} rx={14} />
       <Mercator
         data={world.features}
-        scale={width / 630 * 100}
+        scale={(width / 630) * 100}
         translate={[width / 2, height / 2 + 50]}
-        fill={feature => color(feature.geometry.coordinates.length)}
-        stroke={() => '#f9f7e8'}
-        strokeWidth={0.5}
-        onClick={data => event => {
-          if (!events) return;
-          alert(`Clicked: ${data.properties.name} (${data.id})`);
-        }}
         graticule={{
           stroke: 'rgba(33,33,33,0.05)'
         }}
-      />
+      >
+        {mapFeature => {
+          return (
+            <path
+              key={`feature-${mapFeature.index}`}
+              d={mapFeature.d}
+              fill={color(mapFeature.feature.geometry.coordinates.length)}
+              stroke={'#f9f7e8'}
+              strokeWidth={0.5}
+              onClick={event => {
+                if (!events) return;
+                alert(`clicked: ${mapFeature.feature.properties.name} (${mapFeature.feature.id})`);
+              }}
+            />
+          );
+        }}
+      </Mercator>
     </svg>
   );
 };

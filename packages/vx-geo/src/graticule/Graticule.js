@@ -1,8 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Group } from '@vx/group';
-import additionalProps from '../util/additionalProps';
 import { geoGraticule } from 'd3-geo';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export default function Graticule({
   graticule,
@@ -35,15 +34,7 @@ export default function Graticule({
       {lines &&
         currGraticule.lines().map((line, i) => (
           <g key={i}>
-            <path
-              d={lines(line)}
-              fill="none"
-              stroke="black"
-              {...additionalProps(restProps, {
-                ...line,
-                index: i
-              })}
-            />
+            <path d={lines(line)} fill="none" stroke="black" {...restProps} />
           </g>
         ))}
       {outline && (
