@@ -37,22 +37,31 @@ export default function HeatmapCircle({
         return (
           <Group key={`heatmap-${i}`} className="vx-heatmap-column" left={xScale(i)}>
             {bins(d).map((b, j) => {
+              const countValue = count(b);
+              const bin = {
+                bin: b,
+                row: j,
+                column: i,
+                datum: d,
+                cx: radius,
+                cy: yScale(j) + gap + radius,
+                opacity: opacityScale(countValue),
+                color: colorScale(countValue),
+                r,
+                radius,
+                gap
+              };
+              if (children) return children(bin);
               return (
                 <circle
                   key={`heatmap-tile-circle-${j}`}
                   className={cx('vx-heatmap-circle', className)}
-                  fill={colorScale(count(b))}
-                  r={r}
-                  cx={radius}
-                  cy={yScale(j) + gap + radius}
-                  fillOpacity={opacityScale(count(b))}
-                  {...additionalProps(restProps, {
-                    bin: b,
-                    index: j,
-                    datum: d,
-                    datumIndex: i,
-                    data
-                  })}
+                  fill={bin.color}
+                  r={bin.r}
+                  cx={bin.cx}
+                  cy={bin.cy}
+                  fillOpacity={bin.opacity}
+                  {...restProps}
                 />
               );
             })}

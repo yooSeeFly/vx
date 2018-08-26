@@ -70,11 +70,25 @@ export default ({
           opacityScale={opacityScale}
           radius={min([bWidth, bHeight]) / 2}
           gap={2}
-          onClick={data => event => {
-            if (!events) return;
-            alert(`clicked: ${JSON.stringify(data.bin)}`);
+        >
+          {bin => {
+            return (
+              <circle
+                key={`heatmap-circle-${bin.row}-${bin.column}`}
+                className="vx-heatmap-circle"
+                fill={bin.color}
+                r={bin.r}
+                cx={bin.cx}
+                cy={bin.cy}
+                fillOpacity={bin.opacity}
+                onClick={event => {
+                  if (!events) return;
+                  alert(`clicked: ${JSON.stringify(bin, null, 4)}`);
+                }}
+              />
+            );
           }}
-        />
+        </HeatmapCircle>
       </Group>
       <Group top={margin.top} left={xMax + margin.left + separation}>
         <HeatmapRect
@@ -86,11 +100,26 @@ export default ({
           binWidth={bWidth}
           binHeight={bWidth}
           gap={2}
-          onClick={data => event => {
-            if (!events) return;
-            alert(`clicked: ${JSON.stringify(data.bin)}`);
+        >
+          {bin => {
+            return (
+              <rect
+                key={`heatmap-rect-${bin.row}-${bin.column}`}
+                className="vx-heatmap-rect"
+                fill={bin.color}
+                width={bin.width}
+                height={bin.height}
+                x={bin.x}
+                y={bin.y}
+                fillOpacity={bin.opacity}
+                onClick={event => {
+                  if (!events) return;
+                  alert(`clicked: ${JSON.stringify(bin, null, 4)}`);
+                }}
+              />
+            );
           }}
-        />
+        </HeatmapRect>
       </Group>
     </svg>
   );

@@ -42,23 +42,33 @@ export default function HeatmapRect({
         return (
           <Group key={`heatmap-${i}`} className="vx-heatmap-column" left={xScale(i)}>
             {bins(d).map((b, j) => {
+              const row = yScale(j);
+              const countValue = count(b);
+              const bin = {
+                bin: b,
+                row: j,
+                column: i,
+                datum: d,
+                count: countValue,
+                color: colorScale(countValue),
+                width,
+                height,
+                x,
+                y: yScale(j) + gap,
+                opacity: opacityScale(countValue)
+              };
+              if (children) return children(bin);
               return (
                 <rect
                   key={`heatmap-tile-rect-${j}`}
                   className={cx('vx-heatmap-rect', className)}
-                  fill={colorScale(count(b))}
-                  width={width}
-                  height={height}
-                  x={x}
-                  y={yScale(j) + gap}
-                  fillOpacity={opacityScale(count(b))}
-                  {...additionalProps(restProps, {
-                    bin: b,
-                    index: j,
-                    datum: d,
-                    datumIndex: i,
-                    data
-                  })}
+                  fill={bin.color}
+                  width={bin.width}
+                  height={bin.height}
+                  x={bin.x}
+                  y={bin.y}
+                  fillOpacity={bin.opacity}
+                  {...restProps}
                 />
               );
             })}
