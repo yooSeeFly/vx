@@ -30,20 +30,22 @@ export default ({ width, height, events = false }) => {
           stroke: 'rgba(33,33,33,0.05)'
         }}
       >
-        {mapFeature => {
-          return (
-            <path
-              key={`feature-${mapFeature.index}`}
-              d={mapFeature.d}
-              fill={color(mapFeature.feature.geometry.coordinates.length)}
-              stroke={'#f9f7e8'}
-              strokeWidth={0.5}
-              onClick={event => {
-                if (!events) return;
-                alert(`clicked: ${mapFeature.feature.properties.name} (${mapFeature.feature.id})`);
-              }}
-            />
-          );
+        {map => {
+          return map.features.map(f => {
+            return (
+              <path
+                key={`feature-${f.index}`}
+                d={f.d}
+                fill={color(f.feature.geometry.coordinates.length)}
+                stroke={'#f9f7e8'}
+                strokeWidth={0.5}
+                onClick={event => {
+                  if (!events) return;
+                  alert(`clicked: ${f.feature.properties.name} (${f.feature.id})`);
+                }}
+              />
+            );
+          });
         }}
       </Mercator>
     </svg>
