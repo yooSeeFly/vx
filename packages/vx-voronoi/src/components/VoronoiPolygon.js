@@ -6,16 +6,11 @@ const propTypes = {
   polygon: PropTypes.arrayOf(PropTypes.array)
 };
 
-export default function VoronoiPolygon({ polygon, className, ...restProps }) {
+export default function VoronoiPolygon({ polygon, className, children, ...restProps }) {
   if (!polygon) return null;
-  const data = polygon.data;
-  return (
-    <path
-      className={cx('vx-voronoi-polygon', className)}
-      d={`M${polygon.join('L')}Z`}
-      {...restProps}
-    />
-  );
+  const path = `M${polygon.join('L')}Z`;
+  if (children) return children({ path });
+  return <path className={cx('vx-voronoi-polygon', className)} d={path} {...restProps} />;
 }
 
 VoronoiPolygon.propTypes = propTypes;
