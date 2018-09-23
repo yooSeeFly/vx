@@ -31,42 +31,42 @@ export default function HeatmapCircle({
   ...restProps
 }) {
   const r = radius - gap;
+  const heatmap = data.map((d, i) => {
+    return bins(d).map((b, j) => {
+      const countValue = count(b);
+      return {
+        bin: b,
+        row: j,
+        column: i,
+        datum: d,
+        cx: radius + xScale(i),
+        cy: yScale(j) + gap + radius,
+        opacity: opacityScale(countValue),
+        color: colorScale(countValue),
+        r,
+        radius,
+        gap
+      };
+    });
+  });
+  if (children) return children(heatmap);
   return (
     <Group>
-      {data.map((d, i) => {
-        return (
-          <Group key={`heatmap-${i}`} className="vx-heatmap-column" left={xScale(i)}>
-            {bins(d).map((b, j) => {
-              const countValue = count(b);
-              const bin = {
-                bin: b,
-                row: j,
-                column: i,
-                datum: d,
-                cx: radius,
-                cy: yScale(j) + gap + radius,
-                opacity: opacityScale(countValue),
-                color: colorScale(countValue),
-                r,
-                radius,
-                gap
-              };
-              if (children) return children(bin);
-              return (
-                <circle
-                  key={`heatmap-tile-circle-${j}`}
-                  className={cx('vx-heatmap-circle', className)}
-                  fill={bin.color}
-                  r={bin.r}
-                  cx={bin.cx}
-                  cy={bin.cy}
-                  fillOpacity={bin.opacity}
-                  {...restProps}
-                />
-              );
-            })}
-          </Group>
-        );
+      {heatmap.map((bins, i) => {
+        return bins.map((bin, j) => {
+          return (
+            <circle
+              key={`heatmap-tile-circle-${bin.row}-${bin.column}`}
+              className={cx('vx-heatmap-circle', className)}
+              fill={bin.color}
+              r={bin.r}
+              cx={bin.cx}
+              cy={bin.cy}
+              fillOpacity={bin.opacity}
+              {...restProps}
+            />
+          );
+        });
       })}
     </Group>
   );

@@ -36,44 +36,44 @@ export default function HeatmapRect({
 }) {
   const width = binWidth - gap;
   const height = binHeight - gap;
+
+  const heatmap = data.map((d, i) => {
+    return bins(d).map((b, j) => {
+      const countValue = count(b);
+      return {
+        bin: b,
+        row: j,
+        column: i,
+        datum: d,
+        width,
+        height,
+        count: countValue,
+        x: x + xScale(i),
+        y: yScale(j) + gap,
+        opacity: opacityScale(countValue),
+        color: colorScale(countValue)
+      };
+    });
+  });
+  if (children) return children(heatmap);
   return (
     <Group>
-      {data.map((d, i) => {
-        return (
-          <Group key={`heatmap-${i}`} className="vx-heatmap-column" left={xScale(i)}>
-            {bins(d).map((b, j) => {
-              const row = yScale(j);
-              const countValue = count(b);
-              const bin = {
-                bin: b,
-                row: j,
-                column: i,
-                datum: d,
-                count: countValue,
-                color: colorScale(countValue),
-                width,
-                height,
-                x,
-                y: yScale(j) + gap,
-                opacity: opacityScale(countValue)
-              };
-              if (children) return children(bin);
-              return (
-                <rect
-                  key={`heatmap-tile-rect-${j}`}
-                  className={cx('vx-heatmap-rect', className)}
-                  fill={bin.color}
-                  width={bin.width}
-                  height={bin.height}
-                  x={bin.x}
-                  y={bin.y}
-                  fillOpacity={bin.opacity}
-                  {...restProps}
-                />
-              );
-            })}
-          </Group>
-        );
+      {heatmap.map((bins, i) => {
+        return bins.map((bin, j) => {
+          return (
+            <rect
+              key={`heatmap-tile-rect-${bin.row}-${bin.column}`}
+              className={cx('vx-heatmap-rect', className)}
+              fill={bin.color}
+              width={bin.width}
+              height={bin.height}
+              x={bin.x}
+              y={bin.y}
+              fillOpacity={bin.opacity}
+              {...restProps}
+            />
+          );
+        });
       })}
     </Group>
   );

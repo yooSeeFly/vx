@@ -12,7 +12,7 @@ import { scaleQuantize } from '@vx/scale';
 import * as topojson from 'topojson-client';
 import topology from '../../static/vx-geo/world-topo.json';
 
-export default ({ width, height, events = false }) => {
+export default ({ width, height }) => {
   const world = topojson.feature(topology, topology.objects.units);
 
   const color = scaleQuantize({
