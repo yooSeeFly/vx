@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { area } from 'd3-shape';
+import { area as d3Area } from 'd3-shape';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -49,28 +49,29 @@ export default function Area({
   innerRef,
   ...restProps
 }) {
-  const path = area();
-  if (x) path.x((...args) => xScale(x(...args)));
-  if (x0) path.x0((...args) => xScale(x0(...args)));
-  if (x1) path.x1((...args) => xScale(x1(...args)));
-  if (y) path.y((...args) => yScale(y(...args)));
-  if (y0) path.y0((...args) => yScale(y0(...args)));
-  if (y1) path.y1((...args) => yScale(y1(...args)));
-  if (defined) path.defined(defined);
-  if (curve) path.curve(curve);
+  const area = d3Area();
+  if (x) area.x((...args) => xScale(x(...args)));
+  if (x0) area.x0((...args) => xScale(x0(...args)));
+  if (x1) area.x1((...args) => xScale(x1(...args)));
+  if (y) area.y((...args) => yScale(y(...args)));
+  if (y0) area.y0((...args) => yScale(y0(...args)));
+  if (y1) area.y1((...args) => yScale(y1(...args)));
+  if (defined) area.defined(defined);
+  if (curve) area.curve(curve);
+
+  const path = area(data);
   if (children) return children({ path });
+
   return (
-    <g>
-      <path
-        ref={innerRef}
-        className={cx('vx-area', className)}
-        d={path(data)}
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        strokeDasharray={strokeDasharray}
-        fill={fill}
-        {...restProps}
-      />
-    </g>
+    <path
+      ref={innerRef}
+      className={cx('vx-area', className)}
+      d={path}
+      stroke={stroke}
+      strokeWidth={strokeWidth}
+      strokeDasharray={strokeDasharray}
+      fill={fill}
+      {...restProps}
+    />
   );
 }
