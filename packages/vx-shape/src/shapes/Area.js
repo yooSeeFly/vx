@@ -1,7 +1,7 @@
-import cx from 'classnames';
-import { area as d3Area } from 'd3-shape';
-import PropTypes from 'prop-types';
 import React from 'react';
+import cx from 'classnames';
+import PropTypes from 'prop-types';
+import { area as d3Area } from 'd3-shape';
 
 Area.propTypes = {
   x: PropTypes.func,
