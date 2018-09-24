@@ -26,7 +26,7 @@ export default ({ width, height }) => {
   return (
     <svg width={width} height={height}>
       <LinearGradient id="geo_mercator_radial" from="#dc22af" to="#fd7e0f" r={'80%'} />
-      <rect x={0} y={0} width={width} height={height} fill={"#f9f7e8"} rx={14} />
+      <rect x={0} y={0} width={width} height={height} fill="#f9f7e8" rx={14} />
       <Mercator
         data={world.features}
         scale={(width / 630) * 100}
@@ -35,24 +35,27 @@ export default ({ width, height }) => {
           stroke: 'rgba(33,33,33,0.05)'
         }}
       >
-        {mapFeature => {
-          return (
-            <path
-              key={\`feature-\${mapFeature.index}\`}
-              d={mapFeature.d}
-              fill={color(mapFeature.feature.geometry.coordinates.length)}
-              stroke={'#f9f7e8'}
-              strokeWidth={0.5}
-              onClick={event => {
-                alert(\`clicked: \${mapFeature.feature.properties.name} (\${mapFeature.feature.id})\`);
-              }}
-            />
-          );
+        {map => {
+          return map.features.map(f => {
+            return (
+              <path
+                key={\`feature-\${f.index}\`}
+                d={f.d}
+                fill={color(f.feature.geometry.coordinates.length)}
+                stroke={'#f9f7e8'}
+                strokeWidth={0.5}
+                onClick={event => {
+                  alert(\`clicked: \${f.feature.properties.name} (\${f.feature.id})\`);
+                }}
+              />
+            );
+          });
         }}
       </Mercator>
     </svg>
   );
-};`}
+};
+`}
     </Show>
   );
 };

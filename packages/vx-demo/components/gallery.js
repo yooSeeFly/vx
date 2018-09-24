@@ -1,46 +1,42 @@
+import { ParentSize } from '@vx/responsive';
+import Link from 'next/link';
 import React from 'react';
 import Tilt from 'react-tilt';
-import Link from 'next/link';
-import { ParentSize } from '@vx/responsive';
-import { extent, max } from 'd3-array';
-import drawData from './util/drawData';
-
-import Page from '../components/page';
 import Footer from '../components/footer';
-
-import Lines from '../components/tiles/lines';
-import Bars from '../components/tiles/bars';
-import Dots from '../components/tiles/dots';
-import Patterns from '../components/tiles/patterns';
-import Gradients from '../components/tiles/gradients';
 import Area from '../components/tiles/area';
-import Stacked from '../components/tiles/stacked';
-import MultiLine from '../components/tiles/multiline';
 import Axis from '../components/tiles/axis';
 import BarGroup from '../components/tiles/bargroup';
 import BarGroupHorizontal from '../components/tiles/bargrouphorizontal';
+import Bars from '../components/tiles/bars';
 import BarStack from '../components/tiles/barstack';
 import BarStackHorizontal from '../components/tiles/barstackhorizontal';
-import Heatmap from '../components/tiles/heatmap';
-import LineRadial from '../components/tiles/lineradial';
-import Pies from '../components/tiles/pie';
-import Trees from '../components/tiles/tree';
-import Cluster from '../components/tiles/dendrogram';
-import Voronoi from '../components/tiles/voronoi';
-import Legends from '../components/tiles/legends';
 import BoxPlot from '../components/tiles/boxplot';
-import GeoMercator from '../components/tiles/geo-mercator';
-import Network from '../components/tiles/network';
-import Streamgraph from '../components/tiles/streamgraph';
-import Pack from '../components/tiles/pack';
-import Treemap from '../components/tiles/treemap';
-import Radar from '../components/tiles/radar';
-import Responsive from '../components/tiles/responsive';
+import Chord from '../components/tiles/chord';
+import Cluster from '../components/tiles/dendrogram';
+import Dots from '../components/tiles/dots';
 import DragI from '../components/tiles/drag-i';
 import DragII from '../components/tiles/drag-ii';
+import GeoMercator from '../components/tiles/geo-mercator';
+import Gradients from '../components/tiles/gradients';
+import Heatmap from '../components/tiles/heatmap';
+import Legends from '../components/tiles/legends';
+import LineRadial from '../components/tiles/lineradial';
+import Lines from '../components/tiles/lines';
 import LinkTypes from '../components/tiles/linkTypes';
+import MultiLine from '../components/tiles/multiline';
+import Network from '../components/tiles/network';
+import Pack from '../components/tiles/pack';
+import Patterns from '../components/tiles/patterns';
+import Pies from '../components/tiles/pie';
+import Radar from '../components/tiles/radar';
+import Responsive from '../components/tiles/responsive';
+import Stacked from '../components/tiles/stacked';
+import Streamgraph from '../components/tiles/streamgraph';
 import Threshold from '../components/tiles/threshold';
-import Chord from '../components/tiles/chord';
+import Trees from '../components/tiles/tree';
+import Treemap from '../components/tiles/treemap';
+import Voronoi from '../components/tiles/voronoi';
+import drawData from './util/drawData';
 
 const items = [
   '#242424',
@@ -337,7 +333,7 @@ export default class Gallery extends React.Component {
                 <div className="image">
                   <ParentSize>
                     {({ width, height }) => (
-                      <Heatmap width={width} height={height + detailsHeight} />
+                      <Heatmap width={width} height={height + detailsHeight} events={false} />
                     )}
                   </ParentSize>
                 </div>

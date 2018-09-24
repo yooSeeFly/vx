@@ -24,26 +24,28 @@ export default ({ width, height, events = false }) => {
       <rect x={0} y={0} width={width} height={height} fill={`#f9f7e8`} rx={14} />
       <Mercator
         data={world.features}
-        scale={(width / 630) * 100}
+        scale={width / 630 * 100}
         translate={[width / 2, height / 2 + 50]}
         graticule={{
           stroke: 'rgba(33,33,33,0.05)'
         }}
       >
-        {mapFeature => {
-          return (
-            <path
-              key={`feature-${mapFeature.index}`}
-              d={mapFeature.d}
-              fill={color(mapFeature.feature.geometry.coordinates.length)}
-              stroke={'#f9f7e8'}
-              strokeWidth={0.5}
-              onClick={event => {
-                if (!events) return;
-                alert(`clicked: ${mapFeature.feature.properties.name} (${mapFeature.feature.id})`);
-              }}
-            />
-          );
+        {map => {
+          return map.features.map(f => {
+            return (
+              <path
+                key={`feature-${f.index}`}
+                d={f.d}
+                fill={color(f.feature.geometry.coordinates.length)}
+                stroke={'#f9f7e8'}
+                strokeWidth={0.5}
+                onClick={event => {
+                  if (!events) return;
+                  alert(`clicked: ${f.feature.properties.name} (${f.feature.id})`);
+                }}
+              />
+            );
+          });
         }}
       </Mercator>
     </svg>

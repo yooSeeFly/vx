@@ -1,9 +1,8 @@
-import React from 'react';
-import classnames from 'classnames';
 import { Group } from '@vx/group';
 import { scaleLinear } from '@vx/scale';
-import { line, curveCardinal } from 'd3-shape';
-import additionalProps from '../util/additionalProps';
+import classnames from 'classnames';
+import { curveCardinal, line } from 'd3-shape';
+import React from 'react';
 
 export default function ViolinPlot({
   left = 0,
@@ -18,6 +17,8 @@ export default function ViolinPlot({
   valueScale,
   strokeDasharray,
   horizontal,
+  children,
+  curve = curveCardinal,
   ...restProps
 }) {
   const center = (horizontal ? top : left) + width / 2;
@@ -32,31 +33,34 @@ export default function ViolinPlot({
     const topCurve = line()
       .x(d => valueScale(d.value))
       .y(d => center - widthScale(d.count))
-      .curve(curveCardinal);
+      .curve(curve);
 
     const bottomCurve = line()
       .x(d => valueScale(d.value))
       .y(d => center + widthScale(d.count))
-      .curve(curveCardinal);
+      .curve(curve);
 
     const topCurvePath = topCurve(binData);
     const bottomCurvePath = bottomCurve([...binData].reverse());
+
     path = `${topCurvePath} ${bottomCurvePath.replace('M', 'L')} Z`;
   } else {
     const rightCurve = line()
       .x(d => center + widthScale(d.count))
       .y(d => valueScale(d.value))
-      .curve(curveCardinal);
+      .curve(curve);
 
     const leftCurve = line()
       .x(d => center - widthScale(d.count))
       .y(d => valueScale(d.value))
-      .curve(curveCardinal);
+      .curve(curve);
 
     const rightCurvePath = rightCurve(binData);
     const leftCurvePath = leftCurve([...binData].reverse());
+
     path = `${rightCurvePath} ${leftCurvePath.replace('M', 'L')} Z`;
   }
+  if (children) return children({ path });
   return (
     <Group className={classnames('vx-violin', className)}>
       <path
@@ -66,7 +70,7 @@ export default function ViolinPlot({
         strokeDasharray={strokeDasharray}
         fill={fill}
         fillOpacity={opacity}
-        {...additionalProps(restProps, binData)}
+        {...restProps}
       />
     </Group>
   );

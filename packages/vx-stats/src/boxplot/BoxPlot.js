@@ -1,6 +1,6 @@
-import { Group } from '@vx/group';
-import classnames from 'classnames';
 import React from 'react';
+import classnames from 'classnames';
+import { Group } from '@vx/group';
 
 function verticalToHorizontal({ x1, x2, y1, y2 }) {
   return {
@@ -29,7 +29,7 @@ export default function BoxPlot({
   rx = 2,
   ry = 2,
   valueScale,
-  outliers,
+  outliers = [],
   horizontal,
   medianProps = {},
   maxProps = {},
@@ -37,7 +37,8 @@ export default function BoxPlot({
   boxProps = {},
   outlierProps = {},
   container = false,
-  containerProps = {}
+  containerProps = {},
+  children
 }) {
   const offset = horizontal ? top : left;
   const center = offset + boxWidth / 2;
@@ -103,6 +104,8 @@ export default function BoxPlot({
     boxplot.container = verticalToHorizontal(boxplot.container);
     boxplot.container.y1 = Math.min(...valueRange);
   }
+
+  if (children) return children(boxplot);
 
   return (
     <Group className={classnames('vx-boxplot', className)}>

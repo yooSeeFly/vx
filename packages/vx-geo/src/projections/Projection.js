@@ -55,6 +55,18 @@ export default function Projection({
 
   if (pointRadius) path.pointRadius(pointRadius);
 
+  const features = data.map((feature, i) => {
+    return {
+      path,
+      feature,
+      type: projection,
+      projection: currProjection,
+      index: i,
+      centroid: path.centroid(feature),
+      d: path(feature)
+    };
+  });
+
   return (
     <Group className={`vx-geo`}>
       {graticule && !graticule.foreground && <Graticule graticule={g => path(g)} {...graticule} />}
@@ -63,30 +75,23 @@ export default function Projection({
       {graticuleOutline &&
         !graticuleOutline.foreground && <Graticule outline={g => path(g)} {...graticuleOutline} />}
 
-      {data.map((feature, i) => {
-        let c;
-        if (centroid) c = path.centroid(feature);
-        const mapFeature = {
-          path,
-          feature,
-          projection: currProjection,
-          index: i,
-          centroid: path.centroid(feature),
-          d: path(feature)
-        };
-        if (children) return children(mapFeature);
-        return (
-          <g key={`${projection}-${i}`}>
-            <path
-              className={cx(`vx-geo-${projection}`, className)}
-              d={mapFeature.d}
-              ref={innerRef && innerRef(mapFeature.feature, i)}
-              {...restProps}
-            />
-            {centroid && centroid(c, mapFeature.feature)}
-          </g>
-        );
-      })}
+      {children && children({ features })}
+      {!children &&
+        features.map((f, i) => {
+          let c;
+          if (centroid) c = path.centroid(f.feature);
+          return (
+            <g key={`${projection}-${i}`}>
+              <path
+                className={cx(`vx-geo-${projection}`, className)}
+                d={f.d}
+                ref={innerRef && innerRef(f.feature, i)}
+                {...restProps}
+              />
+              {centroid && centroid(c, f.feature)}
+            </g>
+          );
+        })}
 
       {projectionFunc && projectionFunc(currProjection)}
 
