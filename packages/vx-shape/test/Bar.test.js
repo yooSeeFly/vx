@@ -13,6 +13,6 @@ describe('<Bar />', () => {
       expect(n.tagName).toEqual('RECT');
       done();
     };
-    ReactDOM.render(<Bar innerRef={refCallback} />, node);
+    ReactDOM.render(<Bar x={0} y={0} width={1} height={1} innerRef={refCallback} />, node);
   });
 });
