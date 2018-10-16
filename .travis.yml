@@ -1,10 +1,18 @@
 git:
   depth: 10
+
 language: node_js
+
 node_js:
-  - "8"
+  - '8'
+
+install:
+  - npm install -g codecov
+
 cache:
   directories:
     - node_modules
-script: travis_wait 30 npm test
-after_script: "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
+
+script:
+  - travis_wait 30 npm test
+  - codecov
