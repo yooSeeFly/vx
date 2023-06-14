@@ -80,7 +80,7 @@
   },
   "dependencies": {
     "@vx/annotation": "0.0.189",
-    "@vx/axis": "0.0.189",
+    "@vx/axis": "0.0.199",
     "@vx/bounds": "0.0.189",
     "@vx/boxplot": "0.0.189",
     "@vx/brush": "0.0.189",
