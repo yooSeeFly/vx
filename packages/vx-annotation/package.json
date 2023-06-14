@@ -78,7 +78,7 @@
   },
   "dependencies": {
     "@vx/group": "0.0.189",
-    "@vx/point": "0.0.189",
+    "@vx/point": "0.0.199",
     "@vx/shape": "0.0.189",
     "classnames": "^2.2.5",
     "prop-types": "^15.5.10"
