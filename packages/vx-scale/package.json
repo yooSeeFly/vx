@@ -73,7 +73,7 @@
     "rollup-plugin-uglify": "^4.0.0"
   },
   "dependencies": {
-    "d3-scale": "^2.0.0"
+    "d3-scale": "^4.0.0"
   },
   "publishConfig": {
     "access": "public"
